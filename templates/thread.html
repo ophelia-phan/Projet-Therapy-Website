@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}Thread{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Thread</h1>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ thread.topic }}</h5>
+            <p class="card-text">{{ thread.description }}</p>
+            <p class="card-text">Author: {{ thread.author }}</p>
+        </div>
+    </div>
+
+    <h2>Comments</h2>
+
+    <div class="mb-3">
+        <form action="{{ url_for('add_comment', thread_id=thread.id) }}" method="post">
+            <div class="mb-3">
+                <label for="comment" class="form-label">Add a Comment</label>
+                <textarea class="form-control" id="comment" name="comment" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Post Comment</button>
+        </form>
+    </div>
+
+    {% for comment in comments %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Comment by {{ comment.author }}</h5>
+            <p class="card-text">{{ comment.content }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

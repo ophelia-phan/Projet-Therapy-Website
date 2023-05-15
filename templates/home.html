@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Accueil - Votre site web
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Bienvenue sur notre site de santé mentale en ligne</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Services de santé mentale</h2>
+                <p>Explorez nos services professionnels de santé mentale en ligne, offrant des consultations, des thérapies et un soutien adaptés à vos besoins.</p>
+                <p>Obtenez de l'aide pour des problèmes tels que l'anxiété, la dépression, le stress, les relations et bien plus encore.</p>
+                <a href="/services" class="btn btn-primary">En savoir plus sur nos services</a>
+            </div>
+            
+            <div class="col-md-6">
+                <h2>Témoignages de clients</h2>
+                <p>Découvrez les témoignages inspirants de nos clients satisfaits qui ont bénéficié de nos services de santé mentale en ligne.</p>
+                <p>Écoutez leurs expériences, leurs transformations personnelles et leurs conseils pour gérer la santé mentale.</p>
+                <a href="/testimonials" class="btn btn-primary">Voir les témoignages</a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Conseils pour la santé mentale</h2>
+                <p>Consultez notre blog et nos ressources pour obtenir des conseils pratiques sur la gestion de la santé mentale au quotidien.</p>
+                <p>Apprenez des techniques de relaxation, des stratégies de gestion du stress et des moyens de favoriser votre bien-être mental.</p>
+                <a href="/blog" class="btn btn-primary">Découvrir nos conseils</a>
+            </div>
+            
+            <div class="col-md-6">
+                <h2>Tarifs et prise de rendez-vous</h2>
+                <p>Consultez nos tarifs compétitifs pour nos services de santé mentale en ligne et réservez facilement un rendez-vous avec nos professionnels.</p>
+                <p>Vous pouvez choisir la date et l'heure qui vous conviennent le mieux et commencer votre parcours vers une meilleure santé mentale.</p>
+                <a href="/booking" class="btn btn-primary">Consulter nos tarifs et prendre rendez-vous</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
