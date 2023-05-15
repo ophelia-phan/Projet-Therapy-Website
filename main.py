@@ -66,9 +66,23 @@ def home():
 
 @app.route("/login", methods=["POST"])
 def login():
-    session["name"] = request.form["name"]
-    session["email"] = request.form["email"]
-    return redirect(url_for("home"))
+    email = request.form["email"]
+    password = request.form["password"]
+    remember_me = request.form.get("remember_me")  # Récupère la valeur de la case à cocher "remember_me"
+
+    # Vérifie les informations de connexion et authentifie l'utilisateur
+    user = User.query.filter_by(email=email).first()
+    if user and user.password == password:
+        session["user_id"] = user.id
+
+        if remember_me:
+            # Si la case "Se souvenir de moi" est cochée, définit un cookie pour se souvenir de l'utilisateur pendant 30 jours
+            session.permanent = True
+            app.permanent_session_lifetime = timedelta(days=30)
+
+        return redirect(url_for("home"))
+    else:
+        return render_template("login.html", error="Invalid email or password")
 
 @app.route("/sign-up", methods=["POST"])
 def sign_up():
