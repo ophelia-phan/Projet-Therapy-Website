@@ -1,178 +1,99 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 
-app = Flask(__name__)
-app.config["SECRET_KEY"] = "secret_key"
-app.config["SQLAlchemy_DATABASE_URI"] = "sqlite:///chat.db"
-
+app = Flask(_name_)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///therapie_en_ligne.db'
 db = SQLAlchemy(app)
 
-
-##################################################################################################################################################
-#Création du modèle de la base de données 
-
 class User(db.Model):
-    id= db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(120), unique = True, nullable = False)
-    password = db.Column(db.String(80), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(100))
+    email = db.Column(db.String(120), unique=True)
+    mot_de_passe = db.Column(db.String(80))
+    questions_repondues = db.Column(db.Boolean, default=False)
+    rendez_vous = db.relationship('RendezVous', backref='utilisateur', lazy=True)
+    threads = db.relationship('Thread', backref='createur', lazy=True)
+    commentaires = db.relationship('Commentaire', backref='auteur', lazy=True)
+    sessions_video = db.relationship('SessionVideo', backref='utilisateur', lazy=True)
+
+
+class Therapeute(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(100))
+    specialite = db.Column(db.String(100))
+    email = db.Column(db.String(120), unique=True)
+    mot_de_passe = db.Column(db.String(80))
+    description = db.Column(db.Text)
+    photo_profil = db.Column(db.String(100))
+    prix_consultation = db.Column(db.Float)
+    rendez_vous = db.relationship('RendezVous', backref='therapeute', lazy=True)
+    sessions_video = db.relationship('SessionVideo', backref='therapeute', lazy=True)
+    max_sessions = db.Column(db.Integer, default=10)  # nbr max de rdv
+
+
+class RendezVous(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_therapeute = db.Column(db.Integer, db.ForeignKey('therapeute.id'))
+    # Ajoutez d'autres colonnes nécessaires pour les informations de rendez-vous
+
+class Question(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    contenu = db.Column(db.Text)
+    # Ajoutez d'autres colonnes nécessaires pour les questions
+
+class Thread(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    titre = db.Column(db.String(100))
+    contenu = db.Column(db.Text)
+    anonyme = db.Column(db.Boolean, default=False)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('user.id'))
+    commentaires = db.relationship('Commentaire', backref='thread', lazy=True)
+
+class Commentaire(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    contenu = db.Column(db.Text)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_thread = db.Column(db.Integer, db.ForeignKey('thread.id'))
+    anonyme = db.Column(db.Boolean, default=False)
     
-    def __init__(self,name, email, password):
-        self.name = name
-        self.email = email
-        self.password = password
+class Temoignage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    contenu = db.Column(db.Text)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-class Thread(db.Model): #id,author, topic, category, description, date
-    id =  db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.String(80), nullable=False)
-    topic = db.Column(db.String(80), nullable = False)
-    category = db.Column(db.String(80), nullable = True)
-    description = db.Column(db.String(120), nullable=True)
-    pub_date = db.Column(db.DateTime, default=db.func.now())
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    titre = db.Column(db.String(100))
+    contenu = db.Column(db.Text)
+
+class Categorie(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(100))
+    articles = db.relationship('Article', backref='categorie', lazy=True)
+
+class Like(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_commentaire = db.Column(db.Integer, db.ForeignKey('commentaire.id'))
     
-    def __init__(self, author, topic, category, description, date):
-        self.author = author
-        self.topic = topic
-        self.category= category
-        self.description=description
-        self.pub_date=date
-
-class Comment(db.Model): #author, content, date
-    id =  db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.String(80), nullable=False)
-    content = db.Column(db.Text)
-    pub_date = db.Column(db.DateTime, default=db.func.now())
-    id_thread = db.Column(db.Integer, foreign_key=Thread.id)
+class Facturation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('user.id'))
+    montant = db.Column(db.Float)
+    date_facturation = db.Column(db.DateTime, default=datetime.utcnow)
     
-    def __init__(self,author,content, date):
-        self.author = author
-        self.content= content
-        self.pub_date = date
+class SessionVideo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_utilisateur = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_therapeute = db.Column(db.Integer, db.ForeignKey('therapeute.id'))
+    date_session = db.Column(db.DateTime, default=datetime.utcnow)
+    lien_video = db.Column(db.String(200))
+    canceled = db.Column(db.Boolean, default=False)  # indique si la session est annulée
+    extended = db.Column(db.Boolean, default=False)  # indique si la session est prolongée
     
-    
-#Création de la base de données
-with app.app_context():
-    db.drop_all()
-    db.create_all()
-    
- 
-##################################################################################################################################################    
-#Routage du site web 
 
-@app.route("/")
-def home():
-    return render_template("home.html")
+# ... Ajoutez d'autres modèles et relations  ...
 
-@app.route("/login", methods=["POST"])
-def login():
-    email = request.form["email"]
-    password = request.form["password"]
-    remember_me = request.form.get("remember_me")  # Récupère la valeur de la case à cocher "remember_me"
-
-    # Vérifie les informations de connexion et authentifie l'utilisateur
-    user = User.query.filter_by(email=email).first()
-    if user and user.password == password:
-        session["user_id"] = user.id
-
-        if remember_me:
-            # Si la case "Se souvenir de moi" est cochée, définit un cookie pour se souvenir de l'utilisateur pendant 30 jours
-            session.permanent = True
-            app.permanent_session_lifetime = timedelta(days=30)
-
-        return redirect(url_for("home"))
-    else:
-        return render_template("login.html", error="Invalid email or password")
-
-@app.route("/sign-up", methods=["POST"])
-def sign_up():
-    name = request.form["name"]
-    email = request.form["email"]
-    user = User(name, email)
-    session["name"] = request.form["name"]
-    session["email"] = request.form["email"]
-    return redirect(url_for("home"))
-
-
-##################################################################################################################################################
-#AFFICHAGE DU FORUM
-
-@app.route("/forum")
-def forum():
-    threads = Thread.query.all()
-    name = session["name"]
-    email = session["email"]
-    return render_template("forum.html", all_threads = threads,name=name)
-
-@app.route("/add-thread",methods=["POST"])
-def add_thread():
-    author = session["name"]
-    topic = request.form["topic"]
-    category = request.form["category"]
-    description = request.form["description"]
-    date = datetime.today()
-    
-    thread = Thread(author,topic,category,description,date)
-    db.session.add(thread)
-    db.session.commit()
-    return redirect(url_for("forum"))
-
-@app.route("/delete-thread/<int:comment_id>")
-def delete_thread(thread_id):
-    Thread.query.filter(Thread.id == thread_id).delete()
-    db.session.commit()
-    return redirect(url_for("forum"))
-
-@app.route("/edit-thread/<int:comment_id>")
-def edit_thread(thread_id):
-    new_topic = request.form["topic"]
-    new_description = request.form["description"]
-    thread_object = Thread.query.get(thread_id)
-    thread_object.description = new_description
-    thread_object.topic = new_topic
-    
-    db.session.commit()
-    return redirect(url_for("forum"))
-
-
-##################################################################################################################################################
-#AFFICHAGE D'UN THREAD
-
-@app.route("/thread/<int:thread_id>")
-def thread():
-    comments = Comment.query.all()
-    name = session["name"]
-    email = session["email"]
-    return render_template("thread.html", all_comments=comments,name=name)
-
-@app.route("/add-comment", methods=["POST"])
-def add_comment():
-    author = session["name"]
-    content = request.form["comment"]
-    date = datetime.today()
-    comment = Comment(author, content, date)
-    db.session.add(comment)
-    db.session.commit()
-    return redirect(url_for("thread"))
-
-@app.route("/delete-comment/<int:comment_id>")
-def delete_comment(comment_id):
-    Comment.query.filter(Comment.id == comment_id).delete()
-    db.session.commit()
-    return redirect(url_for("thread"))
-
-@app.route("/edit-comment/<int:comment_id>")
-def edit_comment(comment_id):
-    new_content = request.form["comment"]
-    comment_object = Comment.query.get(comment_id)
-    comment_object.content = new_content
-    db.session.commit()
-    return redirect(url_for("thread"))
-
-
-##################################################################################################################################################
-
-
-if __name__ == "__main__":
-    app.debug = True
-    app.run()
+if _name_ == '_main_':
+    app.run(debug=True)
