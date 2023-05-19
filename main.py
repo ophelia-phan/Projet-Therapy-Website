@@ -20,8 +20,8 @@ class User(db.Model):
     questions_repondues = db.Column(db.Boolean, default=False) 
     
     rendez_vous = db.relationship('RendezVous', backref='user', lazy=True)
-    threads = db.relationship('Thread', backref='createur', lazy=True)
-    commentaires = db.relationship('Comment', backref='auteur', lazy=True)
+    threads = db.relationship('Thread', backref='user', lazy=True)
+    comments = db.relationship('Comment', backref='user', lazy=True)
     sessions_video = db.relationship('SessionVideo', backref='user', lazy=True)
     
     def __init__(self, name, email, password, questions_repondues):
@@ -38,14 +38,14 @@ class Therapeute(db.Model):
     password = db.Column(db.String(80), nullable=False)
     specialite = db.Column(db.String(100), nullable =False)
     description = db.Column(db.Text, nullable=False )
-    photo_profil = db.relationship('Img', backref='auteur', lazy=True)
+    photo_profil = db.relationship('Img', backref='therapeute', lazy=True)
     max_sessions = db.Column(db.Integer, default=10)
     nb_experience = db.Column(db.Integer) #nombre d'années d'experience
     formation = db.Column(db.Text)
     
     rendez_vous = db.relationship('RendezVous', backref='therapeute', lazy=True)
     sessions_video = db.relationship('SessionVideo', backref='therapeute', lazy=True)
-    
+    img = db.relationship('Img', backref='therapist', lazy=True)
     
     def __init__(self, name, email, password, specialite, description, max_sessions, nb_experiences, formation):
         self.name = name
@@ -100,7 +100,7 @@ class Thread(db.Model):
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'))
     date_pub = db.Column(db.DateTime, default=db.func.now())
     
-    commentaires = db.relationship('Commentaire', backref='thread', lazy=True)
+    comments = db.relationship('Comment', backref='thread', lazy=True)
     
     def __init__(self, titre, content, anonyme, id_user, date_pub):
         self.titre = titre
@@ -137,10 +137,11 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titre = db.Column(db.String(100), nullable = False)
     contenu = db.Column(db.Text, nullable = False)
-    
-    def __init__(self, titre, contenu):
+    categorie_id = db.Column(db.Integer, db.ForeignKey('categorie.id'), nullable=False)
+    def __init__(self, titre, contenu, categorie_id):
         self.titre = titre
         self.contenu = contenu
+        self.categorie_id = categorie_id
     
     
 class Categorie(db.Model):
@@ -154,7 +155,7 @@ class Categorie(db.Model):
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    id_commentaire = db.Column(db.Integer, db.ForeignKey('commentaire.id'))
+    id_comment = db.Column(db.Integer, db.ForeignKey('comment.id'))
     
     def __init__(self, id_user, id_commentaire):
         self.id_user = id_user
@@ -173,7 +174,7 @@ class Facturation(db.Model):
     
 class SessionVideo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    id_utilisateur = db.Column(db.Integer, db.ForeignKey('user.id'))
+    id_user = db.Column(db.Integer, db.ForeignKey('user.id'))
     id_therapeute = db.Column(db.Integer, db.ForeignKey('therapeute.id'))
     date_session = db.Column(db.DateTime, default=datetime.utcnow)
     lien_video = db.Column(db.String(200))
@@ -249,7 +250,7 @@ def signup_user():
     return redirect(url_for("home"))
 
 
-@app.route("signup-pro", methods = ["POST"])
+@app.route("/signup-pro", methods = ["POST"])
 def signup_pro():
     name = request.form["name"]
     email = request.form["email"]
@@ -354,12 +355,11 @@ def thread(thread_id):
     return render_template("thread.html", thread = thread, all_comments=comments,name=name, email=email)
 
 @app.route("/add-comment", methods=["POST"])
-def add_comment(thread_id):
+def add_comment():
     author = session["name"]
     content = request.form["comment"]
-    date_pub = datetime.today()
-    anonyme = request.form["anonyme"]
-    comment = Comment(content,author, thread_id, anonyme, date_pub)
+    date = datetime.today()
+    comment = Comment(author, content, date)
     db.session.add(comment)
     db.session.commit()
     return redirect(url_for("thread"))
@@ -370,17 +370,11 @@ def delete_comment(comment_id):
     db.session.commit()
     return redirect(url_for("thread"))
 
-
-@app.route("/edit/<int:comment_id>")
-def edit_page(comment_id):
-    comment = Comment.query.get(comment_id)
-    return render_template("edit.html", comment=comment)
-
-@app.route("/edit-comment/<int:comment_id>", methods=["POST"])
+@app.route("/edit-comment/<int:comment_id>")
 def edit_comment(comment_id):
     new_content = request.form["comment"]
     comment_object = Comment.query.get(comment_id)
-    comment_object.contenu = new_content
+    comment_object.content = new_content
     db.session.commit()
     return redirect(url_for("thread"))
 
