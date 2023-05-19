@@ -20,8 +20,8 @@ class User(db.Model):
     questions_repondues = db.Column(db.Boolean, default=False) 
     
     rendez_vous = db.relationship('RendezVous', backref='user', lazy=True)
-    threads = db.relationship('Thread', backref='user', lazy=True)
-    commentaires = db.relationship('Comment', backref='user', lazy=True)
+    threads = db.relationship('Thread', backref='createur', lazy=True)
+    commentaires = db.relationship('Comment', backref='auteur', lazy=True)
     sessions_video = db.relationship('SessionVideo', backref='user', lazy=True)
     
     def __init__(self, name, email, password, questions_repondues):
@@ -38,7 +38,7 @@ class Therapeute(db.Model):
     password = db.Column(db.String(80), nullable=False)
     specialite = db.Column(db.String(100), nullable =False)
     description = db.Column(db.Text, nullable=False )
-    photo_profil = db.relationship('Img', backref='therapeute', lazy=True)
+    photo_profil = db.relationship('Img', backref='auteur', lazy=True)
     max_sessions = db.Column(db.Integer, default=10)
     nb_experience = db.Column(db.Integer) #nombre d'années d'experience
     formation = db.Column(db.Text)
@@ -354,11 +354,12 @@ def thread(thread_id):
     return render_template("thread.html", thread = thread, all_comments=comments,name=name, email=email)
 
 @app.route("/add-comment", methods=["POST"])
-def add_comment():
+def add_comment(thread_id):
     author = session["name"]
     content = request.form["comment"]
-    date = datetime.today()
-    comment = Comment(author, content, date)
+    date_pub = datetime.today()
+    anonyme = request.form["anonyme"]
+    comment = Comment(content,author, thread_id, anonyme, date_pub)
     db.session.add(comment)
     db.session.commit()
     return redirect(url_for("thread"))
@@ -369,11 +370,17 @@ def delete_comment(comment_id):
     db.session.commit()
     return redirect(url_for("thread"))
 
-@app.route("/edit-comment/<int:comment_id>")
+
+@app.route("/edit/<int:comment_id>")
+def edit_page(comment_id):
+    comment = Comment.query.get(comment_id)
+    return render_template("edit.html", comment=comment)
+
+@app.route("/edit-comment/<int:comment_id>", methods=["POST"])
 def edit_comment(comment_id):
     new_content = request.form["comment"]
     comment_object = Comment.query.get(comment_id)
-    comment_object.content = new_content
+    comment_object.contenu = new_content
     db.session.commit()
     return redirect(url_for("thread"))
 
