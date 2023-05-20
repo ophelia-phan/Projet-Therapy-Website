@@ -12,30 +12,84 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body class="d-flex flex-column min-vh-100">
+
+    {#{% if {{user}} %}  Si le user est connecté à son compte #}
+
+    <!--  
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+
+        <a class="navbar-brand" href="#">Menu</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse justify-content-md-center" id="menu">
+
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home 
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/forum">Forum</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/articles">Articles</a>
+            </li>
+
+            <li class="nav-item dropdown">
+
+                <a class="nav-link dropdown-toggle" href="#" id="profil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Profil
+                </a>
+                <div class="dropdown-menu" aria-labelledby="profil">
+                  <a class="dropdown-item" href="/user">Voir profil</a>
+                  <a class="dropdown-item" href="/logout">Déconnexion</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </li>
+          </ul>
+
+        </div>
+
+    </nav>-->
+    
+    {#{% else %}  Affichage par défaut de la barre de navigation #}
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" id="login" href="/login"> Login </a>
-                <a class="nav-item nav-link" id="signUp" href="/sign-up"> Sign up </a>
+                <a class="nav-item nav-link" id="signUp" href="/signup-user"> Sign up as an user </a>
+                <a class="nav-item nav-link" id="signUp" href="/signup-pro"> Sign up as a pro </a>
                 <a class="nav-item nav-link" id="logout" href="/logout"> Log out </a>
                 <a class="nav-item nav-link" id="home" href="/"> Home </a>
             </div>
         </div>
     
     </nav>
+    
+
+
+    {#{% endif %}#}
+
     {%block content%}{% endblock %}
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
-<footer class="bg-dark text-center text-white fixed-bottom">
+<footer class="bg-dark text-center text-white mt-auto">
     <div class="text-center p-4">
-        © 2023 Copyright Ophélia Phan
+        © 2023 Copyright Ophélia Phan et Nouha Benghali
     </div>
  
 </footer>

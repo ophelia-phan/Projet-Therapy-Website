@@ -1,12 +1,13 @@
 {% extends "layout.html" %}
 
-{% block title %}User Profile{% endblock %}
+{% block title %}User PRO Profile{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1>User Profile</h1>
+    <h1>User PRO Profile</h1>
 
     <div class="card mb-3">
+        <img class="card-img-top" src="{{ }}" alt="Profile photo of therapeute">
         <div class="card-body">
             <h5 class="card-title">User Information</h5>
             <p class="card-text">Name: {{ name }}</p>
@@ -25,6 +26,16 @@
                 <input type="email" class="form-control" id="email" name="email" value="{{ email }}" required>
             </div>
             <button type="submit" class="btn btn-primary">Update Profile</button>
+        </form>
+    </div>
+
+    <div class="mb-3">
+        <form action="{{ url_for('upload_profile_picture') }}" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="picture" class="form-label">Profile Picture</label>
+                <input type="file" class="form-control" id="picture" name="photo_profil">
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Picture</button>
         </form>
     </div>
 

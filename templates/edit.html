@@ -1,5 +1,7 @@
 {% extends 'layout.html' %}
 
+{% block title %}Modifier commentaire{% endblock %}
+
 {% block content %}
 
 <h1 class="intro">Modifier le commentaire</h1>
@@ -7,10 +9,12 @@
 <li class="write-new">
 
     <form action="{{ url_for('edit_comment', comment_id=comment.id)}}" method="post">
-        <textarea placeholder="Edit comment" name="comment">{{ comment.content }}</textarea>
-        <div>
-            <button type="submit">Modifier</button>
 
+        <div class="form-outline mb-4">
+            <label class="form-label" for="comment">Modifiez le contenu de votre commentaire</label>
+            <textarea placeholder="Edit comment" id="comment" name="comment">{{ comment.content }}</textarea>
+        <div>
+            <button type="submit" class="btn btn-primary btn-block">Modifier</button>
         </div>
     </form>
 

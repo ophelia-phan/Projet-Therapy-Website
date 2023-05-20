@@ -12,27 +12,27 @@
     <div class="container">
         <h1>Inscription</h1>
         
-        <form action="/signup-user" method="POST">
+        <form action="/create-account" method="POST">
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="name">Votre nom</label>
-                <input type="text" id="name" class="form-control" name="name" required/>
+                <input type="text" id="name" class="form-control" name="name" placeholder="Entrez votre nom" required/>
                 
             </div>
 
             <div class="form-outline mb-4">
                 <label for="email" class="form-label">Email :</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre mail" required>
             </div>
 
             <div class="form-outline mb-4">
                 <label for="password" class="form-label">Mot de passe :</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Entrez un mot de passe" required>
             </div>
 
             <div class="form-outline mb-4">
                 <label for="confirm_password" class="form-label">Confirmer le mot de passe</label>
-                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirmez votre mot de passe" required>
             </div>
 
             <div class="mb-4 form-check">
