@@ -462,6 +462,11 @@ def delete_comment(comment_id):
 
 @app.route("/edit-comment/<int:comment_id>")
 def edit_comment(comment_id):
+    comment = Comment.query.get(comment_id)
+    return render_template("edit.html", comment=comment)
+    
+@app.route("/new-comment/<int:comment_id>", methods=["POST"])
+def new_comment(comment_id):
     new_content = request.form["comment"]
     comment_object = Comment.query.get(comment_id)
     comment_object.content = new_content
