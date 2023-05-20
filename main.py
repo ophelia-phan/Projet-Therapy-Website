@@ -215,8 +215,12 @@ with app.app_context():
 def home():
     return render_template("home.html")
 
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["GET","POST"])
 def login():
+    return render_template("login.html")
+    
+@app.route("/register", methods=["POST"])
+def register():
     email = request.form["email"]
     password = request.form["password"]
     remember_me = request.form.get("remember_me")  # Récupère la valeur de la case à cocher "remember_me"
@@ -234,13 +238,18 @@ def login():
         return redirect(url_for("home"))
     else:
         return render_template("login.html", error="Invalid email or password")
+    
 
-@app.route("/signup-user", methods=["POST"])
+@app.route("/signup-user", methods=["GET","POST"])
 def signup_user():
+    return render_template("signup_user.html")
+
+@app.route("/create-account", methods=["POST"])
+def create_account():
     name = request.form["name"]
     email = request.form["email"]
     password = request.form["password"]
-    user = User(name, email, password)
+    user = User(name, email, password, False)
     session["name"] = request.form["name"]
     session["email"] = request.form["email"]
     session["password"] = request.form["password"]
@@ -250,8 +259,12 @@ def signup_user():
     return redirect(url_for("home"))
 
 
-@app.route("/signup-pro", methods = ["POST"])
+@app.route("/signup-pro", methods = ["GET","POST"])
 def signup_pro():
+    return render_template("signup_pro.html")
+    
+@app.route("/create-account-pro", methods=["POST"])
+def create_pro_account():
     name = request.form["name"]
     email = request.form["email"]
     password = request.form["password"]
@@ -268,10 +281,6 @@ def signup_pro():
     filename=secure_filename(photo_profil.filename)
     phototype = photo_profil.mimetype
     img = Img(photo_profil.read(),phototype, filename, name)
-    
-    
-    
-    
     
     pro = Therapeute(name, email, password, specialite, description,max_sessions, nb_experience, formation)
     
@@ -295,6 +304,83 @@ def signup_pro():
 
 
 
+    
+
+@app.route("/logout")
+def logout():
+    session.pop("name", None)
+    return redirect(url_for("home"))
+
+@app.route("/articles")
+def display_articles():
+    return render_template("articles.html")
+
+
+##################################################################################################################################################
+#Profil USER
+
+@app.route("/user/<int:user_id>")
+def profil(user_id):
+    name = session["name"]
+    email = session["email"]
+    user = User.query.get(user_id)
+    
+    return render_template("user.html", name=name, email=email)
+
+@app.route("/update-profile/<int:user_id>", methods=["POST"])
+def update_profile(user_id):
+    new_name = request.form["name"]
+    new_email = request.form["email"]
+    user_object = User.query.get(user_id)
+    
+    user_object.name = new_name
+    user_object.email = new_email
+    
+    db.session.commit()
+    return redirect(url_for("home"))
+
+
+##################################################################################################################################################
+#Profil USER PRO
+
+@app.route("/therapeute/<int:therapeute_id>")
+def profil_pro(therapeute_id):
+    name = session["name"]
+    email = session["email"]
+    therapeute = Therapeute.query.get(therapeute_id)
+    photo_profil = therapeute.photo_profil
+    
+    return render_template("user_pro.html", name=name, email=email, photo_profil=photo_profil)
+
+@app.route("/update-profile-pro/<int:therapeute_id>",methods=["POST"])
+def update_profile_pro(therapeute_id):
+    new_name = request.form["name"]
+    new_email = request.form["email"]
+    
+    therapeute_object = Therapeute.query.get(therapeute_id)
+    
+    therapeute_object.name = new_name
+    therapeute_object.email = new_email
+    
+    db.session.commit()
+    return redirect(url_for("home"))
+
+@app.route("/upload-profile-picture/<int:therapeute_id>", methods=["POST"])
+def upload_profile_picture(therapeute_id):
+    name = session["name"]
+    new_photo = request.files["photo_profil"]
+    if not new_photo:
+        return "No pic uploaded",400 #error bad request
+    filename=secure_filename(new_photo.filename)
+    phototype = new_photo.mimetype
+    new_photo_profil = Img(new_photo.read(),phototype, filename, name)
+    
+    therapeute_object = Therapeute.query.get(therapeute_id)
+    therapeute_object.photo_profil = new_photo_profil
+    
+    db.session.commit()
+    return redirect(url_for("home"))
+    
 
 ##################################################################################################################################################
 #AFFICHAGE DU FORUM
@@ -330,8 +416,12 @@ def delete_thread(thread_id):
     db.session.commit()
     return redirect(url_for("forum"))
 
-@app.route("/edit-thread/<int:comment_id>")
+@app.route("/edit-thread/<int:thread_id>")
 def edit_thread(thread_id):
+    return render_template("edit_thread.html", thread_id = thread_id)
+
+@app.route("/change-thread/<int:thread_id>")
+def change_thread(thread_id):
     new_title = request.form["new_title"]
     new_content = request.form["new_content"]
     thread_object = Thread.query.get(thread_id)
@@ -377,6 +467,24 @@ def edit_comment(comment_id):
     comment_object.content = new_content
     db.session.commit()
     return redirect(url_for("thread"))
+
+
+
+##################################################################################################################################################
+# Feature : Affichage des articles 
+
+##################################################################################################################################################
+# Feature : Prise de rendez-vous 
+
+
+##################################################################################################################################################
+# Feature : Webchat en ligne
+
+##################################################################################################################################################
+# Feature : Facturation, paiement en ligne 
+
+##################################################################################################################################################
+# Feature : ...
 
 
 ##################################################################################################################################################
