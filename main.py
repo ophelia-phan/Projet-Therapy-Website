@@ -477,10 +477,47 @@ def new_comment(comment_id):
 
 ##################################################################################################################################################
 # Feature : Affichage des articles 
+def articles():
+    # Récupérer les articles depuis la base de données ou autre source de données
+    articles = [
+        {'titre': 'Article 1', 'contenu': 'Contenu de l\'article 1'},
+        {'titre': 'Article 2', 'contenu': 'Contenu de l\'article 2'},
+        {'titre': 'Article 3', 'contenu': 'Contenu de l\'article 3'}
+    ]
+    
+    return render_template('articles.html', articles=articles)
 
+# Route pour afficher un article spécifique
+@app.route('/articles/<int:article_id>')
+def article(article_id):
+    # Récupérer l'article avec l'ID spécifié depuis la base de données ou autre source de données
+    article = {'titre': 'Article', 'contenu': 'Contenu de l\'article'}
+    
+    return render_template('article.html', article=article)
 ##################################################################################################################################################
 # Feature : Prise de rendez-vous 
+@app.route('/booking')
+def booking():
+    return render_template('rdv.html')
+# Route pour enregistrer un rendez-vous
+@app.route('/booking', methods=['POST'])
+def booking_submit():
+    # Récupérer les données du formulaire
+    id_user = request.form.get('id_user')
+    id_therapeute = request.form.get('id_therapeute')
+    prix_consultation = request.form.get('prix_consultation')
+    date_rdv = request.form.get('date_rdv')
+    heure_rdv = request.form.get('heure_rdv')
+    completed = False  # Nouveau rendez-vous, donc completé à False
+    canceled_id = 0  # Nouveau rendez-vous, donc canceled_id à 0
+    
+    rendezvous = RendezVous(id_user=id_user, id_therapeute=id_therapeute, prix_consultation=prix_consultation,
+                            date_rdv=date_rdv, heure_rdv=heure_rdv, completed=completed, canceled_id=canceled_id)
+    
+    db.session.add(rendezvous)
+    db.session.commit()
 
+    return render_template('rdv.html', rendezvous=rendezvous)
 
 ##################################################################################################################################################
 # Feature : Webchat en ligne
