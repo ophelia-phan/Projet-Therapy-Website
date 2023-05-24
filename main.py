@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret_key"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///therapie_en_ligne.db'
 db = SQLAlchemy(app)
 
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 ##################################################################################################################################################
 #Création du modèle de la base de données 
@@ -38,14 +39,13 @@ class Therapeute(db.Model):
     password = db.Column(db.String(80), nullable=False)
     specialite = db.Column(db.String(100), nullable =False)
     description = db.Column(db.Text, nullable=False )
-    photo_profil = db.relationship('Img', backref='therapeute', lazy=True)
     max_sessions = db.Column(db.Integer, default=10)
     nb_experience = db.Column(db.Integer) #nombre d'années d'experience
     formation = db.Column(db.Text)
     
     rendez_vous = db.relationship('RendezVous', backref='therapeute', lazy=True)
     sessions_video = db.relationship('SessionVideo', backref='therapeute', lazy=True)
-    img = db.relationship('Img', backref='therapist', lazy=True)
+    photo_profil = db.relationship('Image', backref='therapeute', lazy=True)
     
     def __init__(self, name, email, password, specialite, description, max_sessions, nb_experiences, formation):
         self.name = name
@@ -189,19 +189,25 @@ class SessionVideo(db.Model):
         self.canceled = canceled
         self.extended = extended
     
-class Img(db.Model):
+class Image(db.Model):
     id= db.Column(db.Integer, primary_key = True)
-    img = db.Column(db.LargeBinary, nullable = False)
+    img = db.Column(db.Text, nullable = False)
     name = db.Column(db.Text, nullable=False)
-    img_type = db.Column(db.Text, nullable =False) #type de l'image : JPEG, PNG etc.
-    id_user = db.Column(db.Integer, db.ForeignKey('therapeute.id'))
+    mimetype = db.Column(db.Text, nullable =False) #type de l'image : JPEG, PNG etc.
     
-    def __init__(self,img, name, img_type, id_user):
+    username = db.Column(db.Integer, db.ForeignKey('therapeute.name'))
+    
+    def __init__(self, img, name, mimetype, username):
         self.img = img
         self.name = name
-        self.img_type = img_type
-        self.id_user = id_user
-    
+        self.mimetype = mimetype
+        self.username = username
+ 
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
+
+   
 #Création de la base de données
 with app.app_context():
     db.create_all()
@@ -287,20 +293,30 @@ def create_pro_account():
     
 
     photo_profil = request.files['photo_profil']
-    print("après photo")
         
-    """if photo_profil is None :
+    if photo_profil is None :
         return "No pic uploaded", 400 #error bad request"""
     
-    filename=secure_filename(photo_profil.filename)
+    if photo_profil and allowed_file(photo_profil.filename):
+        filename = secure_filename(photo_profil.filename)
+        print("Im secure")
+    else:
+        filename = secure_filename(photo_profil.filename)
+        print("Im not secure")
+    
+   
     phototype = photo_profil.mimetype
     
-    img = Img(photo_profil.read(), phototype, filename, name)
-    
+    img = Image(img=photo_profil.read(), mimetype=phototype, name=filename, username=name)
+    print("marche ?")
+    db.session.add(img)
+    db.session.commit()
+    print("je suis dans la base")
     pro = Therapeute(name, email, password, specialite, description,max_sessions, nb_experience, formation)
 
+    print("j'ai créé un user therapeute")
     
-    pro.photo_profil = img
+    #pro.photo_profil = img
     
     session["name"] = request.form["name"]
     session["email"] = request.form["email"]
