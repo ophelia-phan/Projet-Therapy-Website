@@ -191,7 +191,7 @@ class SessionVideo(db.Model):
     
 class Img(db.Model):
     id= db.Column(db.Integer, primary_key = True)
-    img = db.Column(db.Text, unique= True, nullable = False)
+    img = db.Column(db.LargeBinary, nullable = False)
     name = db.Column(db.Text, nullable=False)
     img_type = db.Column(db.Text, nullable =False) #type de l'image : JPEG, PNG etc.
     id_user = db.Column(db.Integer, db.ForeignKey('therapeute.id'))
@@ -204,7 +204,6 @@ class Img(db.Model):
     
 #Création de la base de données
 with app.app_context():
-    db.drop_all()
     db.create_all()
     
  
@@ -215,7 +214,7 @@ with app.app_context():
 def home():
     return render_template("home.html")
 
-@app.route("/login", methods=["GET","POST"])
+@app.route("/login", methods=["GET"])
 def login():
     return render_template("login.html")
     
@@ -225,20 +224,32 @@ def register():
     password = request.form["password"]
     remember_me = request.form.get("remember_me")  # Récupère la valeur de la case à cocher "remember_me"
 
+    
     # Vérifie les informations de connexion et authentifie l'utilisateur
     user = User.query.filter_by(email=email).first()
-    if user and user.password == password:
+    therapeute = Therapeute.query.filter_by(email=email).first()
+    
+    if (user is not None) and user.password == password:        
         session["user_id"] = user.id
-
         if remember_me:
             # Si la case "Se souvenir de moi" est cochée, définit un cookie pour se souvenir de l'utilisateur pendant 30 jours
             session.permanent = True
             app.permanent_session_lifetime = timedelta(days=30)
-
         return redirect(url_for("home"))
+    
+    elif (therapeute is not None) and therapeute.password == password :
+        session["therapeute_id"] = therapeute.id
+        if remember_me:
+            # Si la case "Se souvenir de moi" est cochée, définit un cookie pour se souvenir de l'utilisateur pendant 30 jours
+            session.permanent = True
+            app.permanent_session_lifetime = timedelta(days=30)
+        return redirect(url_for("home"))
+    
     else:
         return render_template("login.html", error="Invalid email or password")
-    
+
+
+
 
 @app.route("/signup-user", methods=["GET","POST"])
 def signup_user():
@@ -263,34 +274,31 @@ def create_account():
 def signup_pro():
     return render_template("signup_pro.html")
     
-@app.route("/create-account-pro", methods=["POST"])
+@app.route("/create-account-pro", methods=["GET","POST"])
 def create_pro_account():
     name = request.form["name"]
     email = request.form["email"]
     password = request.form["password"]
     specialite = request.form["specialite"]
     description = request.form["description"]
-    nb_experience = request.form["nb_experience"]
     max_sessions = request.form["max_sessions"]
+    nb_experience = request.form["nb_experience"]
     formation = request.form["formation"]
     
-    photo_profil = request.files["photo_profil"]
-    if not photo_profil :
-        return "No pic uploaded",400 #error bad request
+
+    photo_profil = request.files['photo_profil']
+    print("après photo")
+        
+    """if photo_profil is None :
+        return "No pic uploaded", 400 #error bad request"""
     
     filename=secure_filename(photo_profil.filename)
     phototype = photo_profil.mimetype
-    img = Img(photo_profil.read(),phototype, filename, name)
+    
+    img = Img(photo_profil.read(), phototype, filename, name)
     
     pro = Therapeute(name, email, password, specialite, description,max_sessions, nb_experience, formation)
-    
-    photo_profil = request.files["photo_profil"]
-    if not photo_profil :
-        return "No pic uploaded",400 #error bad request
-    
-    filename=secure_filename(photo_profil.filename)
-    phototype = photo_profil.mimetype
-    img = Img(photo_profil.read(),phototype, filename, name)
+
     
     pro.photo_profil = img
     
