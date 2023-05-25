@@ -1,4 +1,4 @@
-Légende:
+Légende: <br/>
 x : pas encore fini/ait <br/>
 ! : problème non résolu <br/>
 ~ : en cours <br/>
