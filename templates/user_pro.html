@@ -7,29 +7,58 @@
     <h1>User PRO Profile</h1>
 
     <div class="card mb-3">
-        <img class="card-img-top" src="{{ }}" alt="Profile photo of therapeute">
+        <img class="card-img-top" src="{{therapeute.photo_profil}}" alt="Profile photo of therapeute">
         <div class="card-body">
             <h5 class="card-title">User Information</h5>
-            <p class="card-text">Name: {{ name }}</p>
-            <p class="card-text">Email: {{ email }}</p>
+            <p class="card-text">Name: {{ therapeute.name }}</p>
+            <p class="card-text">Email: {{ therapeute.email }}</p>
         </div>
     </div>
 
     <div class="mb-3">
-        <form action="{{ url_for('update_profile') }}" method="post">
+
+        <form action="{{ url_for('update_profile_pro') }}" method="post">
             <div class="mb-3">
-                <label for="name" class="form-label" for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ name }}" required>
+                <label for="name" class="form-label" for="name">Votre nom :</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ therapeute.name }}" required>
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label" for="email">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ email }}" required>
+                <label for="email" class="form-label" for="email">Votre email : </label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ therapeute.email }}" required>
             </div>
-            <button type="submit" class="btn btn-primary">Update Profile</button>
+            
+            <div class="form-outline mb-4">
+                <label class="form-label" for="specialite">Vos spécialisations :</label>
+                <input type="text" id="specialite" class="form-control" name="specialite" value="{{ therapeute.specialite }}" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="description">Ecrivez une courte description de vous pour vos futurs patients</label>
+                <textarea class="form-control" id="description" rows="4" name="description" value="{{ therapeute.description }}" required></textarea>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="max_sessions">Votre nombre maximal de rendez-vous :</label>
+                <input type="number" id="max_sessions" class="form-control" name="max_sessions" value="{{ therapeute.max_sessions }}" required/>
+           </div>
+
+           <div class="form-outline mb-4">
+                <label class="form-label" for="nb_experience">Votre nombre d'années d'expérience :</label>
+                <input type="number" id="nb_experience" class="form-control" name="nb_experience" value="{{ therapeute.experience }}" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="formation">Quelle est votre formation ?</label>
+                <textarea class="form-control" id="formation" rows="4" name="formation" value="{{ therapeute.formation }}" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary"> Update Profile</button>
         </form>
+        
     </div>
 
+
     <div class="mb-3">
+
         <form action="{{ url_for('upload_profile_picture') }}" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="picture" class="form-label">Profile Picture</label>
@@ -37,6 +66,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Upload Picture</button>
         </form>
+
     </div>
 
 </div>

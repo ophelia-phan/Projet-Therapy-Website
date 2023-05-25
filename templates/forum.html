@@ -6,6 +6,12 @@
 <div class="container mt-4">
     <h1>Forum</h1>
 
+    <div class="container">
+        <form action="{{ url_for('add_thread')}}" method="get">
+            <button class="btn btn-primary" type="submit">Ajouter un nouveau thread</button>
+        </form>
+    </div>
+
     <div class="row">
         <div class="col-md-8">
             {% for thread in threads %}
@@ -20,24 +26,6 @@
             {% endfor %}
         </div>
         
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">New Thread</h5>
-                    <form action="{{ url_for('add_thread') }}" method="post">
-                        <div class="mb-3">
-                            <label for="topic" class="form-label">Topic</label>
-                            <input type="text" class="form-control" id="topic" name="topic" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create Thread</button>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 {% endblock %}

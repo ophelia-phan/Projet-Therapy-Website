@@ -1,12 +1,9 @@
 {% extends "layout.html" %}
 
-{% block title %}Articles{% endblock %}
+{% block title %} {{article.titre}} {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h1>Liste des articles</h1>
-        
-        {% for article in articles %}
             <div class="card mb-3">
                 <div class="card-body">
                     <h2 class="card-title">{{ article.titre }}</h2>
@@ -14,6 +11,5 @@
                     <a href="/articles/{{ loop.index }}" class="btn btn-primary">Lire l'article</a>
                 </div>
             </div>
-        {% endfor %}
     </div>
 {% endblock %}

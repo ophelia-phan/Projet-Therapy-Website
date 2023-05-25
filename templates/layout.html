@@ -72,11 +72,14 @@
                   <div class="dropdown-menu">
                     {% if 'name' in session %}
                     <a href="{{ url_for('logout') }}">Logout</a>
+
                     {% else %}
                       <a class="dropdown-item"  id="signUp" href="/signup-user"> Sign up as an user</a>
                       <a class="dropdown-item" id="signUp" href="/signup-pro"> Sign up as a pro </a>
                       <a class="dropdown-item" id="login" href="/login"> Login </a>
-                      {% endif %}
+
+                    {% endif %}
+                    
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="#">Contact Us</a>
                   </div>
@@ -108,6 +111,7 @@
 </body>
 
 <footer class="bg-dark text-center text-white mt-auto">
+
     <div class="text-center p-4">
         © 2023 Copyright Ophélia Phan et Nouha Benghali
     </div>

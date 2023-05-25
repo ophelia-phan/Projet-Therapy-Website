@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block content %}
+
+    {% if 'name' in session %}
+
     <div class="container">
         <h1>Prise de rendez-vous</h1>
         
@@ -32,4 +35,15 @@
             <button type="submit" class="btn btn-primary">Confirmer le rendez-vous</button>
         </form>
     </div>
+
+    {% else %}
+    <div class="container">
+        <p class="">
+            <a id="login" href="/login"> Connectez-vous </a> ou bien si vous n'avez pas encore de compte:
+            <a id="signup" href="/signup-user"> Inscrivez vous </a> dès maintenant !
+        </p>
+    </div>      
+
+    {% endif %}
+
 {% endblock %}
