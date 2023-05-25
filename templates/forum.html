@@ -6,7 +6,7 @@
 <div class="container mt-4">
     <h1>Forum</h1>
 
-    <div class="container">
+    <div class="container pt-3 pb-4">
         <form action="{{ url_for('add_thread')}}" method="get">
             <button class="btn btn-primary" type="submit">Ajouter un nouveau thread</button>
         </form>
@@ -14,12 +14,13 @@
 
     <div class="row">
         <div class="col-md-8">
-            {% for thread in threads %}
+            {% for thread in all_threads %}
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">{{ thread.topic }}</h5>
-                    <p class="card-text">{{ thread.description }}</p>
-                    <p class="card-text">Author: {{ thread.author }}</p>
+                    <h5 class="card-title" id="thread-title">{{ thread.titre }}</h5>
+                    <p class="card-text" id="thread-description">{{ thread.description }}</p>
+                    <p class="card-text" id="thread-author">Author: {{ name }}</p>
+                    <p class="card-text" id="thread-date">{{ thread.date_pub }}</p>
                     <a href="{{ url_for('thread', thread_id=thread.id) }}" class="btn btn-primary">View Thread</a>
                 </div>
             </div>
