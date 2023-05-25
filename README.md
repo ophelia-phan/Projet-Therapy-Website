@@ -4,7 +4,6 @@ x : pas encore fini/ait <br/>
 ~ : en cours <br/>
 🗸 : fini et fonctionne <br/>
 
-
 # Les Point restants à traiter pour le Projet-Therapy-Website (à actualiser régulièrement)
 
 
@@ -36,17 +35,17 @@ x : pas encore fini/ait <br/>
 
 - Partie FORUM.html à vérifier : 
     - add thread (button) : 🗸 
-    - affichage des threads : x
+    - affichage des threads : 🗸
     - edit thread : x 
     - delete thread : x
-    - ouverture du lien vers un thread sur la page : x
+    - ouverture du lien vers un thread sur la page : 🗸
     - éventuelle mise en forme avec bootstrap (frontend)
   
 - Partie THREAD.html à vérifier :
-    - affichage du bon thread : x 
-    - add comment : x
+    - affichage du bon thread : 🗸 
+    - add comment : 🗸
     - edit comment : x
-    - lecture des commentaires : x
+    - affichage des commentaires : 🗸
     - delete comment : x
     - ajout bouton "Retour au forum" : x
     - éventuellement fonctionnalité liker un commentaire + affichage nombre de likes (ajout d'un attribut dans la classe Comment): x
