@@ -20,10 +20,10 @@ x : pas encore fini/ait <br/>
     - Titre du site web : x
     - Autres fancy things to add : ...
 
--Partie FORUM.html à vérifier :
-    - add thread : x
+- Partie FORUM.html à vérifier : 
+    - add thread : x 
     - lecture des threads : x
-    - edit thread : x
+    - edit thread : x 
     - delete thread : x
     - éventuelle mise en forme avec bootstrap (frontend)
   
