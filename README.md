@@ -1,8 +1,8 @@
 Légende:
-x : pas encore fini/ait
-! : problème non résolu
-~ : en cours
-🗸 : fini et fonctionne
+x : pas encore fini/ait <br/>
+! : problème non résolu <br/>
+~ : en cours <br/>
+🗸 : fini et fonctionne <br/>
 
 
 # Les Point restants à traiter pour le Projet-Therapy-Website (à actualiser régulièrement)
