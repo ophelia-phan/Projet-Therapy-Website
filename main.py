@@ -211,7 +211,9 @@ def allowed_file(filename):
    
 #Création de la base de données
 with app.app_context():
+    #db.drop_all()
     db.create_all()
+    
     
  
 ##################################################################################################################################################    
@@ -430,7 +432,7 @@ def forum():
     threads = Thread.query.all()
     name = session["name"]
     email = session["email"]
-    return render_template("forum.html", all_threads = threads)
+    return render_template("forum.html", all_threads = threads, name=name)
 
 @app.route("/add-thread",methods=["GET","POST"])
 def add_thread():
@@ -447,7 +449,7 @@ def new_thread():
     thread = Thread(titre, contenu, anonyme, author, date_pub)
     db.session.add(thread)
     db.session.commit()
-    return redirect(url_for("thread", thread_id = thread.id)) #à changer pour le redirect vers la page du thread créé si possible
+    return redirect(url_for("thread", thread_id = thread.id))
 
 
 @app.route("/delete-thread/<int:comment_id>")
@@ -460,7 +462,7 @@ def delete_thread(thread_id):
 def edit_thread(thread_id):
     return render_template("edit_thread.html", thread_id = thread_id)
 
-@app.route("/change-thread/<int:thread_id>")
+@app.route("/change-thread/<int:thread_id>", methods=["POST"])
 def change_thread(thread_id):
     new_title = request.form["new_title"]
     new_content = request.form["new_content"]
@@ -481,18 +483,32 @@ def thread(thread_id):
     thread = Thread.query.get(thread_id)
     comments = Comment.query.filter_by(id_thread = thread.id)
     name = session["name"]
-    return render_template("thread.html", thread = thread, all_comments=comments,name=name)
+    return render_template("thread.html", thread = thread, all_comments=comments, thread_id=thread.id, name=name)
 
-@app.route("/add-comment", methods=["POST"])
-def add_comment():
-    author = session["name"]
+@app.route("/add-comment/<int:thread_id>", methods=["POST"])
+def add_comment(thread_id):
+    
+    email = session["email"]
+    
+    user = User.query.filter_by(email=email).first()
+    id_user = user.id
+    
     content = request.form["comment"]
+    
+    anonyme =  request.form["anonyme"]
+    if anonyme == 'on':
+        anonyme = True
+    else: 
+        anonyme = False
+    
     date = datetime.today()
-    comment = Comment(author, content, date)
+    
+    comment = Comment(content, id_user, thread_id, anonyme, date)
+    print("le commentaire a été créé")
     
     db.session.add(comment)
     db.session.commit()
-    return redirect(url_for("thread"))
+    return redirect(url_for("thread", thread_id = thread_id))
 
 @app.route("/delete-comment/<int:comment_id>")
 def delete_comment(comment_id):
