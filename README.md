@@ -7,12 +7,26 @@ x : pas encore fini/ait <br/>
 
 # Les Point restants à traiter pour le Projet-Therapy-Website (à actualiser régulièrement)
 
-- vérifier affichage de la photo du thérapeute sur son profil : x
-- vérifier que le formulaire sur la page user.html marche (update profile datas) : x
-- vérifier que le formulaire sur la page user_pro.html marche (update profile datas) : x
-- vérifier que le formulaire sur la page user_pro.html marche (update profile datas) : x
-- finir la barre de navigation : x
+
 - configurer les Messages d'erreurs pour mail, mot de passe, confirm password (format) : x
+
+- Barre de navigation:
+    - ajouter le bouton d'accès au forum si user connecté : x
+    - ajouter un bouton lien vers le profil user si user ou profil thérapeute si thérapeute
+    - Note : quand le user est connecté, le bouton "log out" apparaît 2 fois sur la barre de nav (à changer) : x
+    - Bonus : logo du site ?
+
+- Partie PROFIL USER.html :
+    - ajouter un bouton pour permettre au user de supprimer son compte(de la base de données) : x
+    - vérifier que le formulaire sur la page user.html marche (update profile datas) : x
+
+
+- Partie PROFIL PRO USER_PRO.html :
+    - vérifier affichage de la photo du thérapeute sur son profil : x
+    - vérifier que le formulaire sur la page user_pro.html marche (update profile datas) : x
+    - vérifier que le formulaire sur la page user_pro.html marche (update profil picture) : x
+
+
 - Mise en forme de la page d'accueil :
     - mise en forme des témoignages "fancy way" : x
     - Block "if you need help" avec les boutons associés : x
@@ -21,19 +35,22 @@ x : pas encore fini/ait <br/>
     - Autres fancy things to add : ...
 
 - Partie FORUM.html à vérifier : 
-    - add thread : x 
-    - lecture des threads : x
+    - add thread (button) : 🗸 
+    - affichage des threads : x
     - edit thread : x 
     - delete thread : x
+    - ouverture du lien vers un thread sur la page : x
     - éventuelle mise en forme avec bootstrap (frontend)
   
 - Partie THREAD.html à vérifier :
+    - affichage du bon thread : x 
     - add comment : x
     - edit comment : x
     - lecture des commentaires : x
     - delete comment : x
     - ajout bouton "Retour au forum" : x
     - éventuellement fonctionnalité liker un commentaire + affichage nombre de likes (ajout d'un attribut dans la classe Comment): x
+
 
 - Partie Prise de RDV à implémenter :
     - formulaire à redéfinir (revoir les questions) : x
