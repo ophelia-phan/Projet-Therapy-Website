@@ -452,7 +452,7 @@ def new_thread():
     return redirect(url_for("thread", thread_id = thread.id))
 
 
-@app.route("/delete-thread/<int:comment_id>")
+@app.route("/delete-thread/<int:thread_id>")
 def delete_thread(thread_id):
     Thread.query.filter(Thread.id == thread_id).delete()
     db.session.commit()
@@ -460,7 +460,8 @@ def delete_thread(thread_id):
 
 @app.route("/edit-thread/<int:thread_id>")
 def edit_thread(thread_id):
-    return render_template("edit_thread.html", thread_id = thread_id)
+    thread = Thread.query.get(thread_id)
+    return render_template("edit_thread.html", thread = thread)
 
 @app.route("/change-thread/<int:thread_id>", methods=["POST"])
 def change_thread(thread_id):
@@ -496,11 +497,13 @@ def add_comment(thread_id):
     content = request.form["comment"]
     
     anonyme =  request.form["anonyme"]
-    if anonyme == 'on':
-        anonyme = True
-    else: 
-        anonyme = False
     
+    if anonyme is None :
+        anonyme = False
+    else :
+        anonyme = True
+   
+    print(anonyme)
     date = datetime.today()
     
     comment = Comment(content, id_user, thread_id, anonyme, date)
@@ -512,22 +515,25 @@ def add_comment(thread_id):
 
 @app.route("/delete-comment/<int:comment_id>")
 def delete_comment(comment_id):
+    comment = Comment.query.get(comment_id)
+    thread_id = comment.id_thread
     Comment.query.filter(Comment.id == comment_id).delete()
     db.session.commit()
-    return redirect(url_for("thread"))
+    return redirect(url_for("thread",thread_id=thread_id))
 
 @app.route("/edit-comment/<int:comment_id>")
 def edit_comment(comment_id):
     comment = Comment.query.get(comment_id)
     return render_template("edit.html", comment=comment)
     
-@app.route("/new-comment/<int:comment_id>", methods=["POST"])
-def new_comment(comment_id):
+@app.route("/change-comment/<int:comment_id>", methods=["POST"])
+def change_comment(comment_id):
     new_content = request.form["comment"]
     comment_object = Comment.query.get(comment_id)
-    comment_object.content = new_content
+    comment_object.contenu = new_content
+    thread_id = comment_object.id_thread
     db.session.commit()
-    return redirect(url_for("thread"))
+    return redirect(url_for("thread", thread_id=thread_id))
 
 
 
