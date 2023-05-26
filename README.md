@@ -34,19 +34,11 @@ x : pas encore fini/ait <br/>
     - Autres fancy things to add : ...
 
 - Partie FORUM.html à vérifier : 
-    - add thread (button) : 🗸 
-    - affichage des threads : 🗸
-    - edit thread : x 
-    - delete thread : x
-    - ouverture du lien vers un thread sur la page : 🗸
+    - ajouter un thread en NON-anonyme ne marche pas : !
     - éventuelle mise en forme avec bootstrap (frontend)
   
 - Partie THREAD.html à vérifier :
-    - affichage du bon thread : 🗸 
-    - add comment : 🗸
-    - edit comment : x
-    - affichage des commentaires : 🗸
-    - delete comment : x
+    - Commentaire en NON-anonyme ne marche pas : !
     - ajout bouton "Retour au forum" : x
     - éventuellement fonctionnalité liker un commentaire + affichage nombre de likes (ajout d'un attribut dans la classe Comment): x
 
@@ -61,6 +53,20 @@ x : pas encore fini/ait <br/>
 
 
 # Les points déjà traités qui fonctionnent :
+
+- FORUM :
+    - add thread (button) : 🗸 
+    - affichage des threads : 🗸
+    - edit thread : 🗸 
+    - delete thread : 🗸
+    - ouverture du lien vers un thread sur la page : 🗸
+
+- THREAD :
+     - affichage du bon thread : 🗸 
+    - add comment : 🗸
+    - edit comment : 🗸
+    - affichage des commentaires : 🗸
+    - delete comment : 🗸
 
 - barre de navigation en fonction si le user est connecté : 🗸
 - créer un compte USER : 🗸
