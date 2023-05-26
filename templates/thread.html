@@ -21,9 +21,18 @@
     {% for comment in all_comments %}
     <div class="card mb-3">
         <div class="card-body">
+            {% if not comment.anonyme %}
             <h5 class="card-title" id="autor-comment">{{ name }}</h5>
+            {% else %}
+            <h5 class="card-title" id="anonyme-comment">Anonyme</h5>
+            {% endif %}
+
             <p class="card-text" id="content-comment" >{{ comment.contenu }}</p>
             <p class="card-text" id="date-comment" >{{ comment.date_pub }}</p>
+            {% if 'name' in session %}
+                <a href="{{url_for('delete_comment', comment_id=comment.id)}}" class="btn btn-danger btn-sm">Effacer le commentaire</a>
+                <a href="{{url_for('edit_comment', comment_id=comment.id)}}" class="btn btn-info btn-sm">Modifier</a>
+            {% endif %}
         </div>
     </div>
     {% endfor %}
