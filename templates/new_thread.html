@@ -23,10 +23,17 @@
                             <label for="description" class="form-label">Description</label>
                             <textarea class="form-control" id="description" name="description" required></textarea>
                         </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="anonyme" name="anonyme">
-                            <label class="form-check-label" for="anonyme">Poster en anonyme ? Cocher pour oui</label>
+                        
+                        <div class="mb-3">
+                            <p>Poster en anonyme ? (Votre nom d'utilisateur ne sera pas visible)</p>
+
+                            <input type="radio" id="anonymethread-yes" name="anonyme" value="yes"/>
+                            <label for="anonymethread-yes">Oui</label>
+
+                            <input type="radio" id="anonymethread-no" name="anonyme" value="no"/>
+                            <label for="anonymethread-no">Non</label>
                         </div>
+                        
                         <button type="submit" class="btn btn-primary">Create Thread</button>
                     </form>
     
