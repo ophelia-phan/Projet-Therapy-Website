@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Création de votre compte
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Inscription</h1>
+        
+        <form action="/create-account" method="POST">
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="name">Votre nom</label>
+                <input type="text" id="name" class="form-control" name="name" placeholder="Entrez votre nom" required/>
+                
+            </div>
+
+            <div class="form-outline mb-4">
+                <label for="email" class="form-label">Email :</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre mail" required>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label for="password" class="form-label">Mot de passe :</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Entrez un mot de passe" required>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label for="confirm_password" class="form-label">Confirmer le mot de passe</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirmez votre mot de passe" required>
+            </div>
+
+            <div class="mb-4 form-check">
+                <input type="checkbox" class="form-check-input" id="accept_terms" name="accept_terms" required>
+                <label class="form-check-label" for="accept_terms">J'accepte les règles de confidentialité et les conditions d'utilisation.</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+        </form>
+
+        <div class="" >
+            <p class=" ">
+                Si vous êtes un professionel de santé, <a class="" id="signup-pro" href="/signup-pro"> Créez votre compte ici </a>
+            </p>
+        </div>
+    </div>
+
+{% endblock %}

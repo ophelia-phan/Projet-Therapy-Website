@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Prise de rendez-vous
+{% endblock %}
+
+{% block content %}
+
+    {% if 'name' in session %}
+
+    <div class="container">
+        <h1>Prise de rendez-vous</h1>
+        
+        <form action="/booking/confirm" method="POST">
+            <div class="mb-3">
+                <label for="user_id" class="form-label">ID utilisateur</label>
+                <input type="text" class="form-control" id="user_id" name="user_id" placeholder="Entrez votre ID utilisateur" required>
+            </div>
+            <div class="mb-3">
+                <label for="therapist_id" class="form-label">ID thérapeute</label>
+                <input type="text" class="form-control" id="therapist_id" name="therapist_id" placeholder="Entrez l'ID du thérapeute" required>
+            </div>
+            <div class="mb-3">
+                <label for="consultation_price" class="form-label">Prix de la consultation</label>
+                <input type="text" class="form-control" id="consultation_price" name="consultation_price" placeholder="Entrez le prix de la consultation" required>
+            </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Date du rendez-vous</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="mb-3">
+                <label for="time" class="form-label">Heure du rendez-vous</label>
+                <input type="time" class="form-control" id="time" name="time" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirmer le rendez-vous</button>
+        </form>
+    </div>
+
+    {% else %}
+    <div class="container">
+        <p class="">
+            <a id="login" href="/login"> Connectez-vous </a> ou bien si vous n'avez pas encore de compte:
+            <a id="signup" href="/signup-user"> Inscrivez vous </a> dès maintenant !
+        </p>
+    </div>      
+
+    {% endif %}
+
+{% endblock %}
