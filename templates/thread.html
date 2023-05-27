@@ -4,13 +4,20 @@
 
 {% block content %}
 <div class="container mt-4">
+    <div class="mb-3">
+        <a href="{{url_for('forum')}}" class="btn btn-secondary btn-sm">Retour au forum</a>
+    </div>
     <h1>Thread</h1>
 
     <div class="card mb-3">
         <div class="card-body">
             <h5 class="card-title">{{ thread.titre }}</h5>
             <p class="card-text" id="content-thread">{{ thread.content }}</p>
-            <p class="card-text" id="autor-thread">Author: {{ thread.id_user }}</p>
+            {% if thread.anonyme %}
+            <p class="card-text" id="anonyme-author-thread">Author: Anonyme </p>
+            {% else %}
+            <p class="card-text" id="author-thread">Author: {{ thread.id_user }}</p>
+            {% endif %}
             <p class="card-text" id="date-thread">Publié le : {{ thread.date_pub }}</p>
         </div>
     </div>
@@ -46,11 +53,11 @@
             
             <div class="mb-3">
                 <p> Poster en anonyme ? (Votre nom d'utilisateur ne sera pas visible) </p>
-                <input type="radio" id="anonymechoice-yes" name="anonyme" value="yes" />
-                <label for="anonymechoice-yes">Oui</label>
+                <input type="radio" id="anonymecomment-yes" name="anonyme" value="yes" />
+                <label for="anonymecomment-yes">Oui</label>
             
-                <input type="radio" id="anonymechoice-no" name="anonyme" value="no" checked/>
-                <label for="anonymechoice-no">Non</label>
+                <input type="radio" id="anonymecomment-no" name="anonyme" value="no" checked/>
+                <label for="anonymecomment-no">Non</label>
 
             </div>
             <button type="submit" class="btn btn-primary">Post Comment</button>
