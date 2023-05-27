@@ -10,10 +10,10 @@ x : pas encore fini/ait <br/>
 - configurer les Messages d'erreurs pour mail, mot de passe, confirm password (format) : x
 
 - Barre de navigation:
-    - ajouter le bouton d'accès au forum si user connecté : x
+    - ajouter le bouton d'accès au forum si user connecté : x DONE 🗸
     - ajouter un bouton lien vers le profil user si user ou profil thérapeute si thérapeute
-    - Note : quand le user est connecté, le bouton "log out" apparaît 2 fois sur la barre de nav (à changer) : x
-    - Bonus : logo du site ?
+    - Note : quand le user est connecté, le bouton "log out" apparaît 2 fois sur la barre de nav (à changer) : x DONE 🗸
+    - Bonus : logo du site ? 
 
 - Partie PROFIL USER.html :
     - ajouter un bouton pour permettre au user de supprimer son compte(de la base de données) : x
@@ -41,9 +41,9 @@ x : pas encore fini/ait <br/>
 
 
 - Partie Prise de RDV à implémenter :
-    - formulaire à redéfinir (revoir les questions) : x
-    - insérer dans le formulaire une liste des thérapeutes disponibles à la consultation (en fonction des spécialités) : x
-    - vérifier que le formulaire marche : x
+    - formulaire à redéfinir (revoir les questions) : x A finir 
+    - insérer dans le formulaire une liste des thérapeutes disponibles à la consultation (en fonction des spécialités) : x A finir(j'ai ajouter une liste des therapeutes faut juste vir les spécialités à faire)
+    - vérifier que le formulaire marche : x DONE🗸
     - vérifier après la prise d'un rdv que le rdv s'affiche sur les profils USER et THERAPEUTE : x
     - Possibilité d'annuler le rdv à implémenter (+ envoi d'un mail ? ou notification ?) : x
     - éventuellement mise en forme bootstrap avec questionnaire déroulant : x
