@@ -37,7 +37,6 @@ x : pas encore fini/ait <br/>
     - éventuelle mise en forme avec bootstrap (frontend)
   
 - Partie THREAD.html à vérifier :
-    - ajout bouton "Retour au forum" : x
     - éventuellement fonctionnalité liker un commentaire + affichage nombre de likes (ajout d'un attribut dans la classe Comment): x
 
 
@@ -61,7 +60,8 @@ x : pas encore fini/ait <br/>
     - ajouter un thread en NON-anonyme + Anonyme : 🗸
 
 - THREAD :
-     - affichage du bon thread : 🗸 
+    - ajout bouton "Retour au forum" : 🗸
+    - affichage du bon thread : 🗸 
     - add comment : 🗸
     - edit comment : 🗸
     - affichage des commentaires : 🗸
