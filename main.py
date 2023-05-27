@@ -495,13 +495,12 @@ def add_comment(thread_id):
     id_user = user.id
     
     content = request.form["comment"]
-    
     anonyme =  request.form["anonyme"]
     
-    if anonyme is None :
-        anonyme = False
-    else :
+    if anonyme == "yes" :
         anonyme = True
+    else :
+        anonyme = False
    
     print(anonyme)
     date = datetime.today()
