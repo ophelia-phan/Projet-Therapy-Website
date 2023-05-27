@@ -566,7 +566,13 @@ def article(article_id):
 # Feature : Prise de rendez-vous 
 @app.route('/booking')
 def booking():
-    return render_template('rdv.html')
+    therapists = Therapeute.query.all() 
+    if 'name' in session:
+        # Vérifier si l'utilisateur est connecté # Utilisateur connecté, afficher le formulaire de prise de 
+        return render_template('rdv.html',therapists=therapists) 
+    else:
+        # Utilisateur non connecté, rediriger vers la page de connexion 
+        return redirect(url_for('login'))
 
 # Route pour enregistrer un rendez-vous
 @app.route('/booking', methods=['POST'])
