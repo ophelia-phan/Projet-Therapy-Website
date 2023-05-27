@@ -16,7 +16,6 @@
     </div>
 
     <h2>Comments</h2>
-
     
     {% for comment in all_comments %}
     <div class="card mb-3">
@@ -44,9 +43,15 @@
                 <label for="comment" class="form-label">Add a Comment</label>
                 <textarea class="form-control" id="comment" name="comment" required></textarea>
             </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="anonyme" name="anonyme">
-                <label class="form-check-label" for="anonyme">Poster en anonyme ? Cocher pour oui</label>
+            
+            <div class="mb-3">
+                <p> Poster en anonyme ? (Votre nom d'utilisateur ne sera pas visible) </p>
+                <input type="radio" id="anonymechoice-yes" name="anonyme" value="yes" />
+                <label for="anonymechoice-yes">Oui</label>
+            
+                <input type="radio" id="anonymechoice-no" name="anonyme" value="no" checked/>
+                <label for="anonymechoice-no">Non</label>
+
             </div>
             <button type="submit" class="btn btn-primary">Post Comment</button>
         </form>
