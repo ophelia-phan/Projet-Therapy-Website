@@ -96,7 +96,7 @@ class Thread(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titre = db.Column(db.String(100))
     content = db.Column(db.Text)
-    anonyme = db.Column(db.String(8), default=False)
+    anonyme = db.Column(db.Boolean, default=False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'))
     date_pub = db.Column(db.DateTime, default=db.func.now())
     
@@ -443,6 +443,11 @@ def new_thread():
     titre = request.form["topic"]
     contenu = request.form["description"]
     anonyme = request.form["anonyme"]
+    if anonyme == "yes":
+        anonyme = True
+    else :
+        anonyme = False
+        
     author = session["name"]
     date_pub = datetime.now()
     
