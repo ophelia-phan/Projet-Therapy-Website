@@ -9,10 +9,7 @@ x : pas encore fini/ait <br/>
 
 - configurer les Messages d'erreurs pour mail, mot de passe, confirm password (format) : x
 
-- Barre de navigation:
-    - ajouter le bouton d'accès au forum si user connecté : x DONE 🗸
     - ajouter un bouton lien vers le profil user si user ou profil thérapeute si thérapeute
-    - Note : quand le user est connecté, le bouton "log out" apparaît 2 fois sur la barre de nav (à changer) : x DONE 🗸
     - Bonus : logo du site ? 
 
 - Partie PROFIL USER.html :
@@ -50,6 +47,10 @@ x : pas encore fini/ait <br/>
 
 
 # Les points déjà traités qui fonctionnent :
+
+- Barre de navigation:
+    - ajouter le bouton d'accès au forum si user connecté :  🗸
+    - Note : quand le user est connecté, le bouton "log out" apparaît 2 fois sur la barre de nav (à changer) : 🗸
 
 - FORUM :
     - add thread (button) : 🗸 
