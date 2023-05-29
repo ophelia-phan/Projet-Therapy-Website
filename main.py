@@ -598,10 +598,11 @@ def articles():
         
     return render_template('articles.html', articles=liste_articles)
 
-@app.route('/articles/<int:article_id>')
-def article(article_id):
-    article = Article.query.get(article_id)
-    return render_template('article.html', article = article)
+@app.route('/ressource')
+def ressource():
+    return render_template('ressources.html')
+    
+
 
 
 ##################################################################################################################################################
