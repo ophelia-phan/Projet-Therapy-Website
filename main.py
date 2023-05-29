@@ -221,7 +221,32 @@ with app.app_context():
 
 @app.route("/")
 def home():
+    try :
+        mail = session["email"]
+        print(mail)
+    except:
+        mail = None
+        print(mail)
+        
+    if mail is not None:
+        user = User.query.filter_by(email=mail).first()
+        therapeute = Therapeute.query.filter_by(email=mail).first()
+        name = session["name"]
+        
+        if (user is not None):
+            pro = False
+            print("je suis un user")       
+            return render_template("home.html", user = user, name=name, pro=pro)
+        
+    
+        elif (therapeute is not None):
+            pro = True
+            print("je suis un pro")
+            return render_template("home.html", therapeute = therapeute, name=name, pro=pro)
+    print("je ne suis personne")
     return render_template("home.html")
+
+
 
 @app.route("/login")
 def login():
@@ -368,6 +393,15 @@ def update_profile(user_id):
     db.session.commit()
     return redirect(url_for("home"))
 
+@app.route("/delete-profile/<int:user_id>")
+def delete_profile(user_id):
+    user = User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    print("je retourne à la page d'accueil")
+    return redirect(url_for("logout"))
+    
+
 
 ##################################################################################################################################################
 #Profil USER PRO
@@ -422,7 +456,15 @@ def upload_profile_picture(therapeute_id):
     
     db.session.commit()
     return redirect(url_for("home"))
+
+
+@app.route("/delete-profile-pro/<int:therapeute_id>")
+def delete_profile_pro(therapeute_id):
+    therapeute = Therapeute.query.get(therapeute_id)
+    db.session.delete(therapeute)
+    db.session.commit()
     
+    return redirect(url_for("home"))    
 
 ##################################################################################################################################################
 #AFFICHAGE DU FORUM
