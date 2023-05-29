@@ -1,0 +1,366 @@
+/* Ajoutez vos règles de style personnalisées ici */
+
+/* Styles pour la section headline */
+#headline {
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+.headline__title__hSrA_ {
+    font-size: 32px;
+    color: #333;
+}
+
+.headline__description__NMtvF {
+    font-size: 18px;
+    color: #666;
+}
+
+/* Styles pour la section container */
+.container {
+    margin-top: 40px;
+}
+
+.container h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.container p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.container a.btn {
+    display: inline-block;
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.container a.btn:hover {
+    background-color: #23527c;
+}
+
+/* Styles pour les colonnes */
+.row {
+    margin-bottom: 20px;
+}
+
+.col-md-6 h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.background-image {
+    background-image: url('/static/Patient.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+    transition: background-image 2s;
+}
+
+.background-image:hover {
+    background-image: url('/static/patient2.jpg');
+}
+
+.background-image {
+    background-image: url('/static/Patient.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+    transition: background-image 2s;
+    position: relative;
+}
+
+.background-image:hover {
+    background-image: url('/static/patient2.jpg');
+}
+
+.headline__title__hSrA_ {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    /* Centrer le texte horizontalement */
+}
+
+.centered-text {
+    display: inline-block;
+    font-size: 150px;
+
+    /* Ajouter un fond transparent pour améliorer la lisibilité du texte */
+    padding: 10px;
+}
+
+.headline__description__NMtvF {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.centered-text2 {
+    display: block;
+    text-align: center;
+    font-size: 40px;
+    padding: 10px;
+}
+
+
+.logo {
+    width: 80px;
+    height: auto;
+}
+
+/*////////////////////////////////////////////////page blog////////////////////////////////////*/
+
+.blog-header {
+    background-image: url('/static/pic.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 450px;
+    /* Autres styles de mise en forme */
+}
+
+.blog-title {
+    display: block;
+    text-align: center;
+    font-size: 40px;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #f5f5f5;
+
+}
+
+.article {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.toggle-content {
+    display: inline-block;
+    background-color: #5e22b3;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.hidden-text {
+    display: none;
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+}
+
+.image-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+    transform: scale(1.1);
+}
+
+.flip-card {
+    background-color: transparent;
+    width: 300px;
+    height: 200px;
+    border: 1px solid #f1f1f1;
+    perspective: 1000px;
+
+}
+
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    /* Safari */
+    backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+    background-color: #bbb;
+    color: black;
+}
+
+/* Style the back side */
+.flip-card-back {
+    background-color: dodgerblue;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+
+    background: #7f7fd5;
+    background: linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+    margin-block: 2rem;
+    gap: 2rem;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: clamp(20rem, calc(20rem + 2vw), 22rem);
+    overflow: hidden;
+    box-shadow: 0 .1rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 1em;
+    background: #ECE9E6;
+    background: linear-gradient(to right, #FFFFFF, #ECE9E6);
+
+}
+
+
+
+.card__body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+
+.tag {
+    align-self: flex-start;
+    padding: .25em .75em;
+    border-radius: 1em;
+    font-size: .75rem;
+}
+
+.tag+.tag {
+    margin-left: .5em;
+}
+
+.tag-blue {
+    background: #56CCF2;
+    background: linear-gradient(to bottom, #2F80ED, #56CCF2);
+    color: #fafafa;
+}
+
+.tag-brown {
+    background: #D1913C;
+    background: linear-gradient(to bottom, #FFD194, #D1913C);
+    color: #fafafa;
+}
+
+.tag-red {
+    background: #cb2d3e;
+    background: linear-gradient(to bottom, #ef473a, #cb2d3e);
+    color: #fafafa;
+}
+
+.card__body h4 {
+    font-size: 1.5rem;
+    text-transform: capitalize;
+}
+
+.card__footer {
+    display: flex;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+.user {
+    display: flex;
+    gap: .5rem;
+}
+
+.user__image {
+    border-radius: 50%;
+    width: 20px;
+}
+
+.user__info>small {
+    color: #666;
+}
+
+.who-we-are {
+    font-size: 300px;
+    color: #fff;
+    background-color: #6300f0;
+    width: 400px;
+
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Ajoutez d'autres styles personnalisés selon vos besoins */
