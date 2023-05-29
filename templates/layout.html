@@ -73,7 +73,7 @@
                   <div class="dropdown-menu">
                     {% if 'name' in session %}
                     <a class="dropdown-item"id="logout"  href="/logout">Logout</a>
-                    
+                    {% block navbar%}{% endblock%}
 
                     {% else %}
                       <a class="dropdown-item"  id="signUp" href="/signup-user"> Sign up as an user</a>

@@ -5,37 +5,46 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container mb-5">
         <h1>Prise de rendez-vous</h1>
         
-        <form action="/booking/create" method="POST">
-            <div class="mb-3">
-                <label for="user" class="form-label">Utilisateur</label>
-                <select class="form-select" id="user" name="user" required>
-                    {% for user in users %}
-                        <option value="{{ user.id }}">{{ user.name }}</option>
-                    {% endfor %}
+        <form action="/create-rdv" method="POST">
+
+            <div class="form-outline mb-4">
+                <label for="user" class="form-label">Votre nom d'utilisateur</label>
+                <select class="form-select" id="user" name="user" disabled>
+                        <option value="{{ name }}">{{ name }}</option>
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="therapist" class="form-label">Thérapeute</label>
+
+
+            <div class="form-outline mb-4">
+                <label for="therapist" class="form-label">Choisissez un thérapeute</label>
                 <select class="form-select" id="therapist" name="therapist" required>
                     {% for therapist in therapists %}
-                        <option value="{{ therapist.id }}">{{ therapist.name }}</option>
+                        <option value="{{ therapist.name }}">{{ therapist.name }}</option>
                     {% endfor %}
                 </select>
             </div>
             
     
-            <div class="mb-3">
+            <div class="form-outline mb-4">
                 <label for="date" class="form-label">Date du rendez-vous</label>
-                <input type="date" class="form-control" id="date" name="date" required>
+                <input type="date" class="form-control" id="date" name="date_rdv" min="{{date_min}}" max="{{ date_max }}" required>
             </div>
-            <div class="mb-3">
+
+            <div class="form-outline mb-4">
                 <label for="time" class="form-label">Heure du rendez-vous</label>
-                <input type="time" class="form-control" id="time" name="time" required>
+                <input type="time" class="form-control" id="time" name="heure_rdv" min="09:00" max="18:00" required>
             </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="details">Si vous avez d'autres informations à transmettre à votre thérapeute</label>
+                <textarea class="form-control" id="details" rows="4" name="details" placeholder="Autres informations utiles" required></textarea>
+            </div>
+
             <button type="submit" class="btn btn-primary">Prendre rendez-vous</button>
+
         </form>
     </div>
 {% endblock %}

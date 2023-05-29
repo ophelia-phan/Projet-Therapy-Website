@@ -5,6 +5,19 @@
     Accueil - Votre site web
 {% endblock %}
 
+{% block navbar %}
+      {% if connected == True %}
+          {% if pro == True %}
+              <a href="{{ url_for('profil_pro', therapeute_id=therapeute.id)}}" class="btn btn-success btn-sm">Profil professionnel</a>
+          {% else %}
+              <a href="{{ url_for('profil', user_id = user.id)}}" class="btn btn-info btn-sm">Profil utilisateur</a>
+          {% endif %}
+      {%else%}
+
+      {% endif %}
+{% endblock %}
+
+
 {% block content %}
 <div id="headline" class="headline__wrapper__yYIlX background-image">
   <div class="headline__container__Wq_qX">
