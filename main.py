@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date, time
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret_key"
@@ -10,12 +10,17 @@ db = SQLAlchemy(app)
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
+
+
+##################################################################################################################################################
 ##################################################################################################################################################
 #Création du modèle de la base de données 
 
+
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False,  unique=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
     questions_repondues = db.Column(db.Boolean, default=False) 
@@ -34,7 +39,7 @@ class User(db.Model):
 
 class Therapeute(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False, unique=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
     specialite = db.Column(db.String(100), nullable =False)
@@ -61,20 +66,21 @@ class Therapeute(db.Model):
         
 class RendezVous(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    id_user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    id_therapeute = db.Column(db.Integer, db.ForeignKey('therapeute.id'))
-    prix_consultation = db.Column(db.Float, nullable=False)
+    name_user = db.Column(db.String(100), db.ForeignKey('user.name'))
+    name_therapeute = db.Column(db.String(100), db.ForeignKey('therapeute.name'))
     date_rdv = db.Column(db.Date, nullable = False)
     heure_rdv = db.Column(db.Time, nullable = False)
+    details = db.Column(db.Text)
     completed = db.Column(db.Boolean, default = False, nullable=False) #rdv déjà fini ou pas
     canceled_id = db.Column(db.Integer, default = 0) #id de la personne qui a annulé sinon 0
     
-    def __init__ (self, id_user, id_therapeute, prix_consultation, date_rdv, heure_rdv, completed, canceled_id):
-        self.id_user = id_user
-        self.id_therapeute = id_therapeute
-        self.prix_consultation = prix_consultation
+    
+    def __init__ (self, name_user, name_therapeute, date_rdv, heure_rdv, details, completed, canceled_id):
+        self.name_user = name_user
+        self.name_therapeute = name_therapeute
         self.date_rdv = date_rdv
         self.heure_rdv = heure_rdv
+        self.details = details
         self.completed = completed
         self.canceled_id = canceled_id
         
@@ -213,11 +219,16 @@ def allowed_file(filename):
 with app.app_context():
     #db.drop_all()
     db.create_all()
+
+
+
     
     
- 
+##################################################################################################################################################
 ##################################################################################################################################################    
 #Routage du site web 
+
+
 
 @app.route("/")
 def home():
@@ -232,19 +243,21 @@ def home():
         user = User.query.filter_by(email=mail).first()
         therapeute = Therapeute.query.filter_by(email=mail).first()
         name = session["name"]
+        connected = True
         
         if (user is not None):
             pro = False
             print("je suis un user")       
-            return render_template("home.html", user = user, name=name, pro=pro)
+            return render_template("home.html", user = user, name=name, pro=pro, connected = connected)
         
     
         elif (therapeute is not None):
             pro = True
             print("je suis un pro")
-            return render_template("home.html", therapeute = therapeute, name=name, pro=pro)
+            return render_template("home.html", therapeute = therapeute, name=name, pro=pro, connected = connected)
     print("je ne suis personne")
-    return render_template("home.html")
+    connected = False
+    return render_template("home.html", connected = connected)
 
 
 
@@ -377,7 +390,10 @@ def profil(user_id):
     name=session["name"]
     user = User.query.get(user_id)
     
-    return render_template("user.html", email=email, user=user)
+    liste_rendezvous = RendezVous.query.filter_by(name_user = name)
+    
+    
+    return render_template("user.html", email=email, user=user, liste_rendezvous=liste_rendezvous)
 
 @app.route("/update-profile/<int:user_id>", methods=["POST"])
 def update_profile(user_id):
@@ -412,7 +428,9 @@ def profil_pro(therapeute_id):
     name=session["name"]
     therapeute = Therapeute.query.get(therapeute_id)
     
-    return render_template("user_pro.html", email=email, therapeute=therapeute)
+    liste_rendezvous = RendezVous.query.filter_by(name_therapeute=name)
+    
+    return render_template("user_pro.html", email=email, therapeute=therapeute, liste_rendezvous = liste_rendezvous)
 
 @app.route("/update-profile-pro/<int:therapeute_id>",methods=["POST"])
 def update_profile_pro(therapeute_id):
@@ -585,7 +603,6 @@ def change_comment(comment_id):
 
 ##################################################################################################################################################
 # Feature : Affichage des articles
-
 @app.route("/articles")
 def articles():
     # Récupérer les articles depuis la base de données ou autre source de données
@@ -601,41 +618,65 @@ def articles():
 @app.route('/ressource')
 def ressource():
     return render_template('ressources.html')
-    
-
 
 
 ##################################################################################################################################################
 # Feature : Prise de rendez-vous 
 @app.route('/booking')
 def booking():
-    therapists = Therapeute.query.all() 
     if 'name' in session:
-        # Vérifier si l'utilisateur est connecté # Utilisateur connecté, afficher le formulaire de prise de 
-        return render_template('rdv.html',therapists=therapists) 
+        # Vérifier si l'utilisateur est connecté si Utilisateur connecté, afficher le formulaire de prise de rdv
+        therapists = Therapeute.query.all()
+        name = session["name"]
+
+        date_min = date.today()
+        date_max = date_min + timedelta(days=30)
+        
+        return render_template('rdv.html',therapists=therapists, name= name, date_min= date_min, date_max=date_max)
+     
     else:
         # Utilisateur non connecté, rediriger vers la page de connexion 
         return redirect(url_for('login'))
+    
 
 # Route pour enregistrer un rendez-vous
-@app.route('/booking', methods=['POST'])
+
+@app.route('/create-rdv', methods=['POST'])
 def booking_submit():
     # Récupérer les données du formulaire
-    id_user = request.form.get('id_user')
-    id_therapeute = request.form.get('id_therapeute')
-    prix_consultation = request.form.get('prix_consultation')
-    date_rdv = request.form.get('date_rdv')
-    heure_rdv = request.form.get('heure_rdv')
+    name_user = session["name"]
+
+    name_therapeute = request.form['therapist']
+    
+
+    date_rdv_str = request.form['date_rdv']
+    date_rdv = datetime.strptime(date_rdv_str, '%Y-%m-%d')
+    
+    heure_rdv_str = request.form['heure_rdv']
+    heure_rdv = datetime.strptime(heure_rdv_str, '%H:%M').time()
+    
+    details = request.form["details"]
+    
     completed = False  # Nouveau rendez-vous, donc completé à False
     canceled_id = 0  # Nouveau rendez-vous, donc canceled_id à 0
     
-    rendezvous = RendezVous(id_user=id_user, id_therapeute=id_therapeute, prix_consultation=prix_consultation,
-                            date_rdv=date_rdv, heure_rdv=heure_rdv, completed=completed, canceled_id=canceled_id)
-    
+    rendezvous = RendezVous(name_user=name_user, name_therapeute=name_therapeute, date_rdv=date_rdv, heure_rdv=heure_rdv, details = details, completed=completed, canceled_id=canceled_id)
     db.session.add(rendezvous)
     db.session.commit()
+    
+    return redirect(url_for("home"))
 
-    return render_template('rdv.html', rendezvous=rendezvous)
+
+@app.route('/cancel-rdv/<int:rdv_id>')
+#On ne supprime pas le rdv de la base de données, simplement il ne s'affichera plus sur les profils users et therapeute
+def cancel_rdv(rdv_id):
+    rdv = RendezVous.query.filter_by(rdv_id).first()
+    name_therapeute = rdv.name_therapeute
+    therapeute = Therapeute.query.filter_by(name_therapeute).first()
+    
+    rdv.canceled_id = therapeute.id
+    
+    return redirect(url_for('profil_pro', therapeute_id = therapeute.id))
 
 ##################################################################################################################################################
 # Feature : Webchat en ligne
