@@ -1,25 +1,107 @@
 {% extends 'layout.html' %}
+<link rel="stylesheet" href="/static/styles.css">
 
 {% block title %}
     Accueil - Votre site web
 {% endblock %}
 
 {% block content %}
-<div id="headline" class="headline__wrapper__yYIlX">
-    <div class="headline__container__Wq_qX">
-      <h1 class="headline__title__hSrA_">
+<div id="headline" class="headline__wrapper__yYIlX background-image">
+  <div class="headline__container__Wq_qX">
+    <h1 class="headline__title__hSrA_">
+      <span class="centered-text">
         <font style="vertical-align: inherit;">
-          <font style="vertical-align: inherit;">If you or someone you love is struggling with Sexual Violence, Mental Health and Well-Being, Self-Harm and Suicide, or Bullying there is help.&nbsp;?</font>
-        </font></h1><p class="headline__description__NMtvF">
-          <font style="vertical-align: inherit;">
-            <font style="vertical-align: inherit;">Un site de thérapie en ligne</font>
-          </font>
-        </p>
+          <font style="vertical-align: inherit;">HÁBLAME&nbsp;</font>
+        </font>
+      </span>
+    </h1>
+    <p class="headline__description__NMtvF">
+      <font style="vertical-align: inherit;">
+        <span class="centered-text2">
+        <font style="vertical-align: inherit;">Un site de thérapie en ligne</font>
+      </font>
+    </p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card">
+    <div class="card__header">
+      <img src="/static/self harm.jpg" alt="card__image" class="card__image" width="600" height="400">
+    </div>
+    <div class="card__body">
+      <span class="tag tag-blue">Self Harm</span>
+      <h4>Automutilation</h4>
+      <p> L’automutilation désigne le fait de s’auto-infliger des blessures, sans intention suicidaire.En général, l’automutilation constitue un moyen de faire face à des situations difficiles ou à des pensées et des sentiments pénibles.</p>
+      <p>Self-harm is when you hurt yourself as a way of dealing with very difficult feelings, painful memories or overwhelming situations and experiences.</p>
+    </div>
+    <div class="card__footer">
+      <div class="user">
+        <img src="/static/logo.png" alt="user__image" class="user__image">
+        <div class="user__info">
+          <h5>HABLAME</h5>
+          <small>2h ago</small>
+        </div>
       </div>
     </div>
-    <div class="container">
+  </div>
+  <div class="card">
+    <div class="card__header">
+      <img src="/static/mental health.jpg" alt="card__image" class="card__image" width="600" height="400">
+    </div>
+    <div class="card__body">
+      <span class="tag tag-brown">Mental Health</span>
+      <h4>La Santé mentale</h4>
+      <p> La santé mentale ne se résume pas à une absence de troubles psychologiques, chaque personne dispose d’une santé mentale qui va évoluer en fonction des circonstances ou des étapes de la vie. Certaines personnes parleront de bien-être psychologique ou de santé émotionnelle. Ce n’est pas un état figé, mais une constante recherche d’équilibre.</p>
+      <p>Mental health includes our emotional, psychological, and social well-being. It affects how we think, feel, and act. It also helps determine how we handle stress, relate to others, and make healthy choices.</p>
+    </div>
+    <div class="card__footer">
+      <div class="user">
+        <img src="/static/logo.png" alt="user__image" class="user__image">
+        <div class="user__info">
+          <h5>HABLAME</h5>
+          <small>Yesterday</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card__header">
+      <img src="/static/bullying.jpg" alt="card__image" class="card__image" width="600" height="400">
+    </div>
+    <div class="card__body">
+      <span class="tag tag-red">Bullying</span>
+      <h4>Harcèlement</h4>
+      <p>Le harcèlement se définit comme une violence répétée qui peut être verbale, physique ou psychologique. Cette violence se retrouve aussi au sein de l'école. Elle est le fait d'un ou de plusieurs élèves à l'encontre d'une victime qui ne peut se défendre.</p>
+      <p>Bullying is unwanted, aggressive behavior among school aged children that involves a real or perceived power imbalance. The behavior is repeated, or has the potential to be repeated, over time. Both kids who are bullied and who bully others may have serious, lasting problems.</p>
+    </div>
+    <div class="card__footer">
+      <div class="user">
+        <img src="/static/logo.png" alt="user__image" class="user__image">
+      </div> 
+        <div class="user__info">
+          <h5>HABLAME</h5>
+          <small>2d ago</small>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+</br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h1 class="who-we-are">Who We Are</h1>
+    </div>
+  </div>
+</div>
+
+
+
+    <div class="container mt-4">
         <h1>Bienvenue sur notre site de santé mentale en ligne</h1>
-        
         <div class="row">
             <div class="col-md-6">
                 <h2>Services de santé mentale</h2>
