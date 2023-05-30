@@ -670,9 +670,9 @@ def booking_submit():
 @app.route('/cancel-rdv/<int:rdv_id>')
 #On ne supprime pas le rdv de la base de données, simplement il ne s'affichera plus sur les profils users et therapeute
 def cancel_rdv(rdv_id):
-    rdv = RendezVous.query.filter_by(rdv_id).first()
+    rdv = RendezVous.query.filter_by(id=rdv_id).first()
     name_therapeute = rdv.name_therapeute
-    therapeute = Therapeute.query.filter_by(name_therapeute).first()
+    therapeute = Therapeute.query.filter_by(name=name_therapeute).first()
     
     rdv.canceled_id = therapeute.id
     db.session.commit()
