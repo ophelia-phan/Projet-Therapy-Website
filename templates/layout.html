@@ -17,7 +17,7 @@
 <body class="d-flex flex-column min-vh-100">
 
 
-      <nav class=" navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class=" navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="collapse navbar-collapse" id="navbar">
           <img src="/static/logo.png" alt="Logo de votre site" class= "logo">
           <ul class="navbar-nav ml-auto">
@@ -27,6 +27,7 @@
                   </a>
                   <div class="dropdown-menu">
                     {% if 'name' in session %}
+                    
                     {% block navbar%}{% endblock%}
                     <a class="dropdown-item"id="logout"  href="/logout">Logout</a>
                     

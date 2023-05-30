@@ -5,8 +5,12 @@
 {% endblock %}
 
 {% block content %}
+<div class="mt-3">
+    <h1 style="text-align:center">Prise de rendez-vous</h1>
+</div>
+
     <div class="container mb-5">
-        <h1>Prise de rendez-vous</h1>
+        
         
         <form action="/create-rdv" method="POST">
 
@@ -40,10 +44,12 @@
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="details">Si vous avez d'autres informations à transmettre à votre thérapeute</label>
-                <textarea class="form-control" id="details" rows="4" name="details" placeholder="Autres informations utiles" required></textarea>
+                <textarea class="form-control" id="details" rows="4" name="details" placeholder="Exemple: les raisons pour la prise de ce rendez-vous" required></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Prendre rendez-vous</button>
+            <div style="text-align:center">
+                <button type="submit" class="btn btn-primary">Prendre rendez-vous</button>
+            </div>
 
         </form>
     </div>
