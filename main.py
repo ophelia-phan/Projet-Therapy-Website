@@ -675,6 +675,7 @@ def cancel_rdv(rdv_id):
     therapeute = Therapeute.query.filter_by(name_therapeute).first()
     
     rdv.canceled_id = therapeute.id
+    db.session.commit()
     
     return redirect(url_for('profil_pro', therapeute_id = therapeute.id))
 
