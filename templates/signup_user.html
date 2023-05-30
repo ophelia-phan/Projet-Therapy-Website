@@ -5,8 +5,11 @@
 {% endblock %}
 <link rel="stylesheet" href="/static/styles.css">
 {% block content %}
+    <div class="mt-3">
+    <h1 style="text-align:center">Inscription</h1>
+    </div>
     <div class="container">
-        <h1>Inscription</h1>
+        
         
         <form action="/create-account" method="POST" onsubmit="return validatePassword()">
 
@@ -42,13 +45,14 @@
             <button type="submit" class="btn btn-primary">S'inscrire</button>
         </form>
 
-        <div class="my-4" >
-            <p class="lead">
+        
+    </div>
+    
+    <div class="my-4 mx-4" >
+            <p class="lead" style="color:white; text-align:center">
                 Si vous êtes un professionnel de santé, <a class="" id="signup-pro" href="/signup-pro">Créez votre compte ici</a>
             </p>
         </div>
-    </div>
-    
     <script>
         function validatePassword() {
             var password = document.getElementById("password").value;
