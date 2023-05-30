@@ -8,7 +8,7 @@ app.config["SECRET_KEY"] = "secret_key"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///therapie_en_ligne.db'
 db = SQLAlchemy(app)
 
-#ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
 
@@ -50,7 +50,7 @@ class Therapeute(db.Model):
     
     rendez_vous = db.relationship('RendezVous', backref='therapeute', lazy=True)
     sessions_video = db.relationship('SessionVideo', backref='therapeute', lazy=True)
-    #photo_profil = db.relationship('Image', backref='therapeute', lazy=True)
+    photo_profil = db.relationship('Image', backref='therapeute', lazy=True)
     
     def __init__(self, name, email, password, specialite, description, max_sessions, nb_experiences, formation):
         self.name = name
@@ -196,7 +196,7 @@ class SessionVideo(db.Model):
         self.canceled = canceled
         self.extended = extended
     
-"""class Image(db.Model):
+class Image(db.Model):
     id= db.Column(db.Integer, primary_key = True)
     img = db.Column(db.Text, nullable = False)
     name = db.Column(db.Text, nullable=False)
@@ -212,7 +212,7 @@ class SessionVideo(db.Model):
  
 def allowed_file(filename):
     return '.' in filename and \
-        filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS"""
+        filename.rsplit('.',1)[1].lower() in ALLOWED_EXTENSIONS
 
    
 #Création de la base de données
@@ -337,10 +337,10 @@ def create_pro_account():
     formation = request.form["formation"]
     
 
-    """photo_profil = request.files['photo_profil']
+    photo_profil = request.files['photo_profil']
         
     if photo_profil is None :
-        return "No pic uploaded", 400 #error bad request
+        return "No pic uploaded", 400 #error bad request"""
     
     if photo_profil and allowed_file(photo_profil.filename):
         filename = secure_filename(photo_profil.filename)
@@ -355,7 +355,7 @@ def create_pro_account():
     img = Image(img=photo_profil.read(), mimetype=phototype, name=filename, username=name)
     
     db.session.add(img)
-    db.session.commit()"""
+    db.session.commit()
     
     pro = Therapeute(name, email, password, specialite, description,max_sessions, nb_experience, formation)
     
@@ -458,7 +458,7 @@ def update_profile_pro(therapeute_id):
     db.session.commit()
     return redirect(url_for("home"))
 
-"""@app.route("/upload-profile-picture/<int:therapeute_id>", methods=["POST"])
+@app.route("/upload-profile-picture/<int:therapeute_id>", methods=["POST"])
 def upload_profile_picture(therapeute_id):
     name = session["name"]
     email=session["email"]
@@ -473,7 +473,7 @@ def upload_profile_picture(therapeute_id):
     therapeute_object.photo_profil = new_photo_profil
     
     db.session.commit()
-    return redirect(url_for("home"))"""
+    return redirect(url_for("home"))
 
 
 @app.route("/delete-profile-pro/<int:therapeute_id>")
