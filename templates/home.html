@@ -1,43 +1,242 @@
 {% extends 'layout.html' %}
+<link rel="stylesheet" href="/static/styles.css">
 
 {% block title %}
     Accueil - Votre site web
 {% endblock %}
 
-{% block content %}
-    <div class="container">
-        <h1>Bienvenue sur notre site de santé mentale en ligne</h1>
-        
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Services de santé mentale</h2>
-                <p>Explorez nos services professionnels de santé mentale en ligne, offrant des consultations, des thérapies et un soutien adaptés à vos besoins.</p>
-                <p>Obtenez de l'aide pour des problèmes tels que l'anxiété, la dépression, le stress, les relations et bien plus encore.</p>
-                <a href="/services" class="btn btn-primary">En savoir plus sur nos services</a>
-            </div>
-            
-            <div class="col-md-6">
-                <h2>Témoignages de clients</h2>
-                <p>Découvrez les témoignages inspirants de nos clients satisfaits qui ont bénéficié de nos services de santé mentale en ligne.</p>
-                <p>Écoutez leurs expériences, leurs transformations personnelles et leurs conseils pour gérer la santé mentale.</p>
-                <a href="/testimonials" class="btn btn-primary">Voir les témoignages</a>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Conseils pour la santé mentale</h2>
-                <p>Consultez notre blog et nos ressources pour obtenir des conseils pratiques sur la gestion de la santé mentale au quotidien.</p>
-                <p>Apprenez des techniques de relaxation, des stratégies de gestion du stress et des moyens de favoriser votre bien-être mental.</p>
-                <a href="/blog" class="btn btn-primary">Découvrir nos conseils</a>
-            </div>
-            
-            <div class="col-md-6">
-                <h2>Tarifs et prise de rendez-vous</h2>
-                <p>Consultez nos tarifs compétitifs pour nos services de santé mentale en ligne et réservez facilement un rendez-vous avec nos professionnels.</p>
-                <p>Vous pouvez choisir la date et l'heure qui vous conviennent le mieux et commencer votre parcours vers une meilleure santé mentale.</p>
-                <a href="/booking" class="btn btn-primary">Consulter nos tarifs et prendre rendez-vous</a>
-            </div>
-        </div>
-    </div>
+{% block navbar %}
+      {% if connected == True %}
+          {% if pro == True %}
+              <a href="{{ url_for('profil_pro', therapeute_id=therapeute.id)}}" class="btn btn-sm">Profil professionnel</a>
+          {% else %}
+              <a href="{{ url_for('profil', user_id = user.id)}}" class="btn btn-sm">Profil utilisateur</a>
+          {% endif %}
+      {%else%}
+
+      {% endif %}
 {% endblock %}
+
+
+{% block content %}
+<div id="headline" class="headline__wrapper__yYIlX background-image">
+  <div class="headline__container__Wq_qX">
+    <h1 class="headline__title__hSrA_">
+      <span class="centered-text">
+        <font style="vertical-align: inherit;">
+          <font style="vertical-align: inherit;">HÁBLAME&nbsp;</font>
+        </font>
+      </span>
+    </h1>
+    <p class="headline__description__NMtvF">
+      <font style="vertical-align: inherit;">
+        <span class="centered-text2">
+        <font style="vertical-align: inherit;">Un site de thérapie en ligne</font>
+      </font>
+    </p>
+  </div>
+</div>
+<div class="container">
+  <div class="row-r">
+    <p> If you or someone you love is struggling with Sexual Violence, Mental Health and Well-Being, Self-Harm and Suicide, or Bullying there is help.</p>
+  </div>
+</div>
+<div class="container">
+  <div class="card">
+    <div class="card__header">
+      <img src="/static/self harm.jpg" alt="card__image" class="card__image" width="600" height="400">
+    </div>
+    <div class="card__body">
+      <span class="tag tag-blue">Self Harm</span>
+      <h4>Automutilation</h4>
+      <p> L’automutilation désigne le fait de s’auto-infliger des blessures, sans intention suicidaire.En général, l’automutilation constitue un moyen de faire face à des situations difficiles ou à des pensées et des sentiments pénibles.</p>
+      <p>Self-harm is when you hurt yourself as a way of dealing with very difficult feelings, painful memories or overwhelming situations and experiences.</p>
+    </div>
+    <div class="card__footer">
+      <div class="user">
+        <img src="/static/logo.png" alt="user__image" class="user__image">
+        <div class="user__info">
+          <h5>HABLAME</h5>
+          <small>2h ago</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card__header">
+      <img src="/static/mental health.jpg" alt="card__image" class="card__image" width="600" height="400">
+    </div>
+    <div class="card__body">
+      <span class="tag tag-brown">Mental Health</span>
+      <h4>La Santé mentale</h4>
+      <p> La santé mentale ne se résume pas à une absence de troubles psychologiques, chaque personne dispose d’une santé mentale qui va évoluer en fonction des circonstances ou des étapes de la vie. Certaines personnes parleront de bien-être psychologique ou de santé émotionnelle. Ce n’est pas un état figé, mais une constante recherche d’équilibre.</p>
+      <p>Mental health includes our emotional, psychological, and social well-being. It affects how we think, feel, and act. It also helps determine how we handle stress, relate to others, and make healthy choices.</p>
+    </div>
+    <div class="card__footer">
+      <div class="user">
+        <img src="/static/logo.png" alt="user__image" class="user__image">
+        <div class="user__info">
+          <h5>HABLAME</h5>
+          <small>Yesterday</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card__header">
+      <img src="/static/bullying.jpg" alt="card__image" class="card__image" width="600" height="400">
+    </div>
+    <div class="card__body">
+      <span class="tag tag-red">Bullying</span>
+      <h4>Harcèlement</h4>
+      <p>Le harcèlement se définit comme une violence répétée qui peut être verbale, physique ou psychologique. Cette violence se retrouve aussi au sein de l'école. Elle est le fait d'un ou de plusieurs élèves à l'encontre d'une victime qui ne peut se défendre.</p>
+      <p>Bullying is unwanted, aggressive behavior among school aged children that involves a real or perceived power imbalance. The behavior is repeated, or has the potential to be repeated, over time. Both kids who are bullied and who bully others may have serious, lasting problems.</p>
+    </div>
+    <div class="card__footer">
+      <div class="user">
+        <img src="/static/logo.png" alt="user__image" class="user__image">
+      </div> 
+        <div class="user__info">
+          <h5>HABLAME</h5>
+          <small>2d ago</small>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+</br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <section id="about">
+        <div class="about-wrapper container">
+            <div class="about-text">
+                <p class="small">About Us</p>
+                <h2>Services de santé mentale</h2>
+                <p>
+                  Explorez nos services professionnels de santé mentale en ligne, offrant des consultations, des thérapies et un soutien adaptés à vos besoins.</p>
+                  <p>Obtenez de l'aide pour des problèmes tels que l'anxiété, la dépression, le stress, les relations et bien plus encore.</p>
+                  <a href="/signup-user" class="btn btn-primary">COMMENCEZ PAR Là</a>
+            </div>
+            <div class="about-img">
+                <img src="/static/therapy.jpg" alt="us" />
+            </div>
+        </div>
+    </section>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <section id="about">
+          <div class="about-wrapper container">
+              <div class="about-text">
+                  <p class="small">Articles</p>
+                  <h2>Conseils pour la santé mentale</h2>
+                  <p>Consultez notre blog et nos ressources pour obtenir des conseils pratiques sur la gestion de la santé mentale au quotidien.</p>
+                  <p>Apprenez des techniques de relaxation, des stratégies de gestion du stress et des moyens de favoriser votre bien-être mental.</p>
+                  <a href="/articles" class="btn btn-primary">Découvrir nos conseils</a>
+                </div>
+              </div>
+              <div class="about-img">
+                  <img src="/static/article.jpg" alt="blog" />
+              </div>
+          </div>
+      </section>
+      </div>
+    </div>
+
+
+
+
+
+
+<section id="testimonials">
+  <h2 class="testimonial-title">What Our Customers Say</h2>
+  <div class="testimonial-container container">
+      <div class="testimonial-box">
+          <div class="customer-detail">
+              <div class="customer-photo">
+                  <img src="https://i.postimg.cc/5Nrw360Y/male-photo1.jpg" alt="" />
+                  <p class="customer-name">Ross Lee</p>
+              </div>
+          </div>
+          <div class="star-rating">
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+          </div>
+          <p class="testimonial-text">
+            Grâce à la thérapie en ligne, j'ai pu surmonter mes difficultés émotionnelles et retrouver une vie équilibrée.
+             Je suis reconnaissant d'avoir eu accès à un soutien professionnel, même à distance.
+          </p>
+      </div>
+      <div class="testimonial-box">
+          <div class="customer-detail">
+              <div class="customer-photo">
+                  <img src="https://i.postimg.cc/sxd2xCD2/female-photo1.jpg" alt="" />
+                  <p class="customer-name">Amelia Watson</p>
+              </div>
+          </div>
+          <div class="star-rating">
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-half text-warning"></i>
+          </div>
+          <p class="testimonial-text">
+            La thérapie en ligne m'a offert un espace sécurisé pour explorer mes pensées et mes émotions. J'ai été étonné de voir à quel point je pouvais me connecter et progresser dans ma guérison, 
+            même sans être physiquement présent dans un cabinet de thérapie.
+          </p>
+      </div>
+      <div class="testimonial-box">
+          <div class="customer-detail">
+              <div class="customer-photo">
+                  <img src="https://i.postimg.cc/fy90qvkV/male-photo3.jpg" alt="" />
+                  <p class="customer-name">Ben Roy</p>
+              </div>
+          </div>
+          <div class="star-rating">
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star text-warning"></i>
+          </div>
+          <p class="testimonial-text">
+            J'étais sceptique quant à la thérapie en ligne au début, mais cela s'est avéré être une expérience incroyablement bénéfique. 
+            J'ai pu travailler sur mes problèmes personnels à mon propre rythme, tout en bénéficiant du soutien et des conseils d'un thérapeute compétent.
+          </p>
+      </div>
+  </div>
+</section>
+<div class="container">
+  <div class="support-section">
+    <h2>Chercher du soutien</h2>
+    <p>Si vous ou quelqu'un que vous connaissez avez besoin d'aide, soyez assuré que de l'aide est disponible. Vous n'êtes pas seul. Vous trouverez ci-dessous des informations et des ressources sur la façon d'obtenir de l'aide.</p>
+    
+    <div class="support-resource">
+      <p>La main tendue / Téléphone 143</p>
+      <a href="https://www.143.ch/" class="btn btn-primary">VISITEZ LE SITE</a>
+    </div>
+    
+    <div class="support-resource">
+      <p>Aide aux victimes Suisse</p>
+      <a href="https://www.aide-aux-victimes-suisse.ch/" class="btn btn-primary">VISITEZ LE SITE</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
