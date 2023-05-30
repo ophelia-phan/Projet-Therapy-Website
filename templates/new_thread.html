@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}Nouveau thread{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h1 class="intro">Créer un nouveau thread</h1>
+    <li class="write-new">
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">New Thread</h5>
+    
+                    <form action="{{ url_for('new_thread')}}" method="post">
+                        <div class="mb-3">
+                            <label for="topic" class="form-label">Topic</label>
+                            <input type="text" class="form-control" id="topic" name="topic" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p>Poster en anonyme ? (Votre nom d'utilisateur ne sera pas visible)</p>
+
+                            <input type="radio" id="anonymethread-yes" name="anonyme" value="yes"/>
+                            <label for="anonymethread-yes">Oui</label>
+
+                            <input type="radio" id="anonymethread-no" name="anonyme" value="no" checked />
+                            <label for="anonymethread-no">Non</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Create Thread</button>
+                    </form>
+    
+                </div>
+            </div>
+        </div>
+        
+    </li>
+    
+</div>    
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block title %}User PRO Profile{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1>User PRO Profile</h1>
+
+    <div class="card mb-3">
+        <img class="card-img-top" src="{{ image }}" alt="Profile photo of therapeute">
+        <div class="card-body">
+            <h5 class="card-title">Vos informations</h5>
+            <p class="card-text">Name: {{ therapeute.name }}</p>
+            <p class="card-text">Email: {{ therapeute.email }}</p>
+        </div>
+    </div>
+
+    <h4>Vos prochains rendez-vous</h4>
+
+    {% for rendezvous in liste_rendezvous %}
+    {% if (rendezvous.canceled_id == 0) and (rendezvous.completed == False) %}
+    <div class="card">
+        <div class="card-body m-3">
+
+            <div class="row">
+                  <div class="col-lg-8 col-md-8 col-sm-6">
+                        <p class="fw-bold lead mb-2"><strong> Le {{ rendezvous.date_rdv}} à {{rendezvous.heure_rdv }}</strong></p>
+                        <p class="fw-bold text-muted my-3"> avec l'utilisateur {{ rendezvous.name_user }}</p>
+                        <p class="mb-3"> Informations supplémentaires concernant le rdv : </br>
+                            "{{ rendezvous.details}}"
+                        </p>
+                        <p class="text-muted fw-light"> Si vous souhaitez annuler le rendez-vous</p>
+                        <a href="{{ url_for('cancel_rdv', rdv_id = rendezvous.id) }}" class="btn btn-danger btn-sm">Annuler le rdv</a>
+                  </div>
+
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %} 
+
+
+
+    <div class="mb-3 mt-4">
+        <h4>Mettre à jour votre profil professionnel </h4>
+        <form action="{{ url_for('update_profile_pro', therapeute_id=therapeute.id) }}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label" for="name">Votre nom :</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ therapeute.name }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label" for="email">Votre email : </label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ therapeute.email }}" required>
+            </div>
+            
+            <div class="form-outline mb-4">
+                <label class="form-label" for="specialite">Vos spécialisations :</label>
+                <input type="text" id="specialite" class="form-control" name="specialite" placeholder="{{ therapeute.specialite }}" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="description">Ecrivez une courte description de vous pour vos futurs patients</label>
+                <textarea class="form-control" id="description" rows="4" name="description" placeholder="{{ therapeute.description }}" required></textarea>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="max_sessions">Votre nombre maximal de rendez-vous :</label>
+                <input type="number" id="max_sessions" class="form-control" name="max_sessions" placeholder="{{ therapeute.max_sessions }}" required/>
+           </div>
+
+           <div class="form-outline mb-4">
+                <label class="form-label" for="nb_experience">Votre nombre d'années d'expérience :</label>
+                <input type="number" id="nb_experience" class="form-control" name="nb_experience" placeholder="{{ therapeute.nb_experience }}" required/>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="formation">Quelle est votre formation ?</label>
+                <textarea class="form-control" id="formation" rows="4" name="formation" placeholder="{{ therapeute.formation }}" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary"> Update Profile</button>
+        </form>
+        
+    </div>
+
+
+    <div class="mb-3">
+
+        <form action="{{ url_for('upload_profile_picture', therapeute_id=therapeute.id) }}" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="picture" class="form-label">Profile Picture</label>
+                <input type="file" class="form-control" id="picture" name="photo_profil">
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Picture</button>
+        </form>
+
+    </div>
+
+    <div class="d-flex flex-row-reverse">
+        <div class="">
+            <a href="{{ url_for("delete_profile_pro", therapeute_id=therapeute.id)}}" class="btn btn-sm btn-danger">Supprimer votre compte</a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
